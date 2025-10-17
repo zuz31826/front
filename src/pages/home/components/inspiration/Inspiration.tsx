@@ -20,7 +20,7 @@ const Inspiration = () => {
 					</p>
 				</div>
 
-				<img src={dragon} alt="dragon" className="inspirationPhoto" />
+				<img src={dragon} alt="Dragon" className="inspirationPhoto" />
 			</div>
 		</div>
 	);

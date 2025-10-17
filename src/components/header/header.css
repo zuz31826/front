@@ -22,10 +22,8 @@
 	transform: translateY(-100%);
 }
 
-.headerTitle {
-	font-size: 16px;
-	font-weight: 600;
-	color: var(--color-black);
+.headerNameImg {
+	height: clamp(24px, 5vw, 40px);
 }
 
 .headerBurgerImg {

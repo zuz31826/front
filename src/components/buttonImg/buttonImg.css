@@ -1,0 +1,18 @@
+.buttonImgButt {
+	max-width: 320px;
+	min-width: 215px;
+	width: clamp(215px, 35vw, 320px);
+	height: auto;
+	cursor: pointer;
+	transition: transform 0.3s ease;
+}
+
+.buttonImgButt:hover {
+	transform: scale(1.05);
+}
+
+.buttonImgButtBig {
+	max-width: 520px;
+	min-width: 315px;
+	width: clamp(315px, 45vw, 520px);
+}

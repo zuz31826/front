@@ -11,7 +11,7 @@ const Introducing: React.FC = () => {
 				<p className="introducingMainText">I’m Wruszka</p>
 
 				<div className="introducingSubTextContainer">
-					<img src={bg} alt="bg" className="introducingSubTextBg" />
+					<img src={bg} alt="Bg" className="introducingSubTextBg" />
 					<p className="introducingSubText">
 						My name is Zuzik. <br /> I am a visual artist from Poland. <br /> I
 						do freehand tattoos full-time, but I’m interested in all forms of

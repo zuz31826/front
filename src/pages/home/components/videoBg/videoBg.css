@@ -10,6 +10,7 @@
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
+	background-color: var(--color-white);
 }
 
 .videoBgButtonsContainer {
@@ -21,6 +22,5 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	gap: 30px;
 	z-index: 999;
 }

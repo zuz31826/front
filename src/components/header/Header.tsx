@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import burger from "../../assets/images/burger.png";
+import name from "../../assets/images/name.png";
 import "./header.css";
 
 const Header: React.FC = () => {
@@ -22,7 +23,7 @@ const Header: React.FC = () => {
 
 	return (
 		<div className={`header ${show ? "header--visible" : "header--hidden"}`}>
-			<p className="headerTitle">Wruszka</p>
+			<img src={name} alt="Name" className="headerNameImg" />
 			<img src={burger} alt="Burger" className="headerBurgerImg" />
 		</div>
 	);
