@@ -1,0 +1,8 @@
+.inspirationContainer {
+	margin-top: clamp(60px, 8vw, 100px);
+	display: flex;
+	align-items: center;
+	flex-direction: row;
+	justify-content: space-between;
+	overflow: hidden;
+}
