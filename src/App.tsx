@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Analytics } from "@vercel/analytics/react";
 import HomeScreen from "./pages/home/HomeScreen";
 import Header from "./components/header/Header";
 import "./styles/app.css";
@@ -22,7 +23,7 @@ const AppRoutes: React.FC = () => {
 function App() {
 	return (
 		<BrowserRouter>
-			{/* <Analytics /> */}
+			<Analytics />
 			<AppRoutes />
 		</BrowserRouter>
 	);
