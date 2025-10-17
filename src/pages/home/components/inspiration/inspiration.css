@@ -1,8 +1,96 @@
 .inspirationContainer {
 	margin-top: clamp(60px, 8vw, 100px);
+	overflow: hidden;
+}
+
+.inspirationMainText {
+	font-size: clamp(48px, 5vw, 86px);
+	text-align: center;
+	color: var(--color-black);
+}
+
+.inspirationContentContainer {
 	display: flex;
-	align-items: center;
 	flex-direction: row;
 	justify-content: space-between;
-	overflow: hidden;
+	align-items: flex-start;
+	margin-top: clamp(20px, 4vw, 50px);
+}
+
+.inspirationTextContainer {
+	gap: clamp(14px, 2vw, 35px);
+	display: flex;
+	flex-direction: column;
+	margin-left: clamp(14px, 2vw, 70px);
+	z-index: 1;
+}
+
+.inspirationSubText {
+	font-size: clamp(24px, 2.5vw, 44px);
+	color: var(--color-black);
+}
+
+.inspirationSubText:nth-child(1) {
+	width: clamp(340px, 35vw, 590px);
+	white-space: normal;
+	word-break: break-word;
+}
+
+.inspirationSubText:nth-child(2) {
+	max-width: clamp(290px, 33vw, 510px);
+	margin-left: clamp(20px, 2vw, 180px);
+	white-space: normal;
+	word-break: break-word;
+}
+
+.inspirationSubText:nth-child(3) {
+	max-width: clamp(260px, 27vw, 480px);
+	white-space: normal;
+	word-break: break-word;
+}
+
+.inspirationPhoto {
+	width: 100%;
+	margin-left: -20px;
+	height: auto;
+	object-fit: cover;
+	max-width: 2000px;
+	min-width: 500px;
+	display: block;
+}
+
+@media (max-width: 768px) {
+	.inspirationContentContainer {
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.inspirationTextContainer {
+		margin-left: clamp(0px, 10vw, 40px);
+		z-index: 1;
+		width: clamp(340px, 80vw, 550px);
+	}
+
+	.inspirationMainText {
+		font-size: clamp(36px, 3vw, 36px);
+	}
+
+	.inspirationSubText {
+		font-size: clamp(16px, 4vw, 20px);
+		text-align: center;
+	}
+	.inspirationSubText:nth-child(1),
+	.inspirationSubText:nth-child(2),
+	.inspirationSubText:nth-child(3) {
+		width: unset;
+		max-width: unset;
+		margin-left: 0;
+		background-color: transparent;
+	}
+
+	.inspirationPhoto {
+		margin-top: clamp(16px, 5vw, 30px);
+		margin-right: clamp(0px, 8vw, 800px);
+		min-width: 300px;
+	}
 }

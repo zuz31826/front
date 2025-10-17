@@ -1,0 +1,46 @@
+.collaborationContainer {
+	margin-top: clamp(60px, 8vw, 100px);
+	margin-bottom: clamp(80px, 16vw, 200px);
+}
+
+.collaborationMainText {
+	font-size: clamp(48px, 5vw, 86px);
+	text-align: center;
+	color: var(--color-black);
+}
+
+.collaborationContentContainer {
+	margin-top: clamp(20px, 4vw, 50px);
+	gap: 40px;
+	display: flex;
+	flex-direction: column;
+	padding-right: clamp(20px, 8vw, 190px);
+	padding-left: clamp(10px, 9vw, 90px);
+	justify-content: space-between;
+}
+
+.collaborationText {
+	font-size: clamp(24px, 2.5vw, 44px);
+	color: var(--color-black);
+	max-width: clamp(440px, 46vw, 790px);
+}
+
+.collaborationText:nth-child(2) {
+	margin-left: auto;
+}
+
+@media (max-width: 768px) {
+	.collaborationMainText {
+		font-size: clamp(36px, 3vw, 36px);
+	}
+
+	.collaborationContentContainer {
+		padding-right: clamp(10px, 4vw, 40px);
+		padding-left: clamp(10px, 4vw, 40px);
+	}
+	.collaborationText {
+		font-size: clamp(16px, 4vw, 20px);
+		text-align: center;
+		max-width: clamp(300px, 80vw, 400px);
+	}
+}
