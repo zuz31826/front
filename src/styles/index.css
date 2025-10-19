@@ -47,6 +47,12 @@ select {
 	display: none;
 }
 
+div:focus,
+div:active {
+	outline: none;
+	-webkit-tap-highlight-color: transparent;
+}
+
 :root {
 	--color-black: #000;
 	--color-white: #fff;
