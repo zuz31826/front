@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import burger from "../../assets/images/burger.png";
 import name from "../../assets/images/name.png";
 import "./header.css";
+import { useNavigate } from "react-router-dom";
 
 const Header: React.FC = () => {
+	const navigation = useNavigate();
 	const [show, setShow] = useState(true);
 	const [lastScrollY, setLastScrollY] = useState(0);
 	const [menuOpen, setMenuOpen] = useState(false);
@@ -30,10 +32,20 @@ const Header: React.FC = () => {
 		}
 	}, [menuOpen]);
 
+	const navigationHandler = (path: string) => {
+		navigation(path);
+		setMenuOpen(false);
+	};
+
 	return (
 		<>
 			<div className={`header ${show ? "header--visible" : "header--hidden"}`}>
-				<img src={name} alt="Name" className="headerNameImg" />
+				<img
+					src={name}
+					alt="Name"
+					className="headerNameImg"
+					onClick={() => navigationHandler("/")}
+				/>
 				<img
 					src={burger}
 					alt="Menu"
@@ -52,7 +64,7 @@ const Header: React.FC = () => {
 					×
 				</button>
 				<ul className="sidebar__menu">
-					<li>Tattoo work</li>
+					<li onClick={() => navigationHandler("/tattoo")}>Tattoo work</li>
 					<li>Visual art</li>
 					<li>Collaboration</li>
 					<li>About me</li>

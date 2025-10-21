@@ -24,6 +24,7 @@
 
 .headerNameImg {
 	height: clamp(24px, 5vw, 40px);
+	cursor: pointer;
 }
 
 .headerBurgerImg {
