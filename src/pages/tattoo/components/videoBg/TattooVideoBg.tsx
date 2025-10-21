@@ -1,7 +1,7 @@
-import ButtonImg from "../../../../components/buttonImg/ButtonImg";
+// import ButtonImg from "../../../../components/buttonImg/ButtonImg";
 import video from "../../../../assets/video/video2.mp4";
-import tattoo from "../../../../assets/images/tattoo.png";
-import visual from "../../../../assets/images/visual.png";
+// import tattoo from "../../../../assets/images/tattoo.png";
+// import visual from "../../../../assets/images/visual.png";
 import "./tattooVideoBg.css";
 
 const TattooVideoBg: React.FC = () => {
