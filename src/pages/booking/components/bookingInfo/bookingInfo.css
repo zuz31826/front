@@ -1,0 +1,52 @@
+.bookingInfoContainer {
+	padding: 0 16px;
+	max-width: 600px;
+	font-family: var(--font-heading);
+	color: var(--color-black);
+	max-height: max-content;
+}
+
+.bookingInfoItem {
+	border-bottom: 1px solid var(--color-shadow-black);
+}
+
+.bookingInfoButton {
+	width: 100%;
+	background: none;
+	border: none;
+	outline: none;
+	text-align: left;
+	font-size: clamp(18px, 2.5vw, 24px);
+	padding: 15px 0;
+	cursor: pointer;
+	transition: color 0.3s ease;
+}
+
+.bookingInfoButton:hover {
+	color: var([--color-sand]);
+}
+
+.bookingInfoButton.active {
+	color: var([--color-sand]);
+}
+
+.bookingInfoContent {
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height 0.4s ease, opacity 0.4s ease;
+	opacity: 0;
+}
+
+.bookingInfoContent.open {
+	max-height: 2000px;
+	opacity: 1;
+	margin-bottom: 20px;
+}
+
+.bookingInfoContent p {
+	white-space: pre-line;
+	line-height: 1.6;
+	color: var(--color-black);
+	font-family: var(--font-body);
+	font-size: clamp(16px, 2.5vw, 20px);
+}

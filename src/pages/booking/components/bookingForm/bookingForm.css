@@ -1,0 +1,56 @@
+.bookingFormContainer {
+	max-width: 600px;
+	width: 100%;
+	padding: 16px;
+	display: flex;
+	flex-direction: column;
+	max-height: max-content;
+}
+
+.bookingFormTitle {
+	font-family: var(--font-heading);
+	color: var(--color-black);
+	font-size: clamp(18px, 2.5vw, 24px);
+	margin-bottom: 32px;
+	text-align: center;
+}
+
+.bookingFormSubtitle {
+	font-family: var(--font-heading);
+	color: var(--color-black);
+	font-size: clamp(16px, 2vw, 20px);
+	margin-bottom: 16px;
+}
+
+.bookingFormInputsContainer {
+	gap: 12px;
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 24px;
+	margin-left: 24px;
+}
+
+.bookingFormInfoText {
+	color: var(--color-dark-gray);
+	font-size: clamp(14px, 2vw, 16px);
+	margin-top: -6px;
+	margin-bottom: 4px;
+	text-align: center;
+}
+
+.bookingFormSubmitButton {
+	font-family: var(--font-heading);
+	color: var(--color-black);
+	font-size: clamp(16px, 2vw, 20px);
+	margin-top: 18px;
+	padding: 12px 24px;
+
+	align-self: center;
+	transition: color 0.3s ease;
+	cursor: pointer;
+}
+
+.bookingFormSubmitButton:disabled {
+	color: var(--color-light-gray);
+	cursor: not-allowed;
+}
