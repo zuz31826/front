@@ -55,10 +55,7 @@ const AdminPage: React.FC = () => {
 		}
 	};
 
-	const copyToClipboard = (text: string) => {
-		navigator.clipboard.writeText(text);
-		alert(`Copied: ${text}`);
-	};
+	const copyToClipboard = (text: string) => navigator.clipboard.writeText(text);
 
 	if (!isLogged) {
 		return (
