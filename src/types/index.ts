@@ -58,3 +58,19 @@ export interface Portfolio {
 	publishedAt: string;
 	updatedAt: string;
 }
+
+export type BookingInfo = {
+	name: string;
+	instagram: string;
+	email: string;
+	size: string;
+	vision: string;
+	date: string;
+	place: "Poznan" | "Berlin" | "";
+};
+
+export type AdminInfo = {
+	id?: number;
+	documentId?: string;
+	createdAt?: string;
+} & BookingInfo;
