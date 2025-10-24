@@ -20,13 +20,9 @@ const About: React.FC = () => {
 				<ButtonImg
 					image={tattoo}
 					alt="Tattoo"
-					onClick={() => console.log("Tattoo clicked")}
+					onClick={() => navigation("/tattoo")}
 				/>
-				<ButtonImg
-					image={illustration}
-					alt="Illustration"
-					onClick={() => navigation("/illustration")}
-				/>
+				<ButtonImg image={illustration} alt="Illustration" />
 			</div>
 
 			<p className="aboutText">
