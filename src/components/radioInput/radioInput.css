@@ -1,0 +1,42 @@
+.radioInputContainer {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 8px;
+}
+
+.radioInputLabel {
+	color: var(--color-black);
+	font-size: clamp(16px, 3vw, 18px);
+	display: block;
+	max-width: clamp(120px, 30%, 160px);
+	width: 100%;
+}
+
+.radioInputOptionsContainer {
+	display: flex;
+	flex-direction: row;
+	gap: 24px;
+	align-items: center;
+}
+
+.radioInputOptionsContainer label {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 8px;
+	cursor: pointer;
+	color: var(--color-black);
+}
+
+.radioInputRadio {
+	width: 16px;
+	height: 16px;
+	border: 2px solid var(--color-light-gray);
+	cursor: pointer;
+	appearance: none;
+}
+
+.radioInputRadio:checked {
+	border: 6px solid var(--color-black);
+}

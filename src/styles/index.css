@@ -82,8 +82,10 @@ div:active {
 	--color-black: #000;
 	--color-white: #fff;
 	--color-gray: #808080;
+	--color-light-gray: #ccc;
 	--color-half-transparent-black: rgba(0, 0, 0, 0.5);
 	--color-shadow-black: rgba(0, 0, 0, 0.1);
+	--color-sand: #b38b59;
 
 	--font-heading: "Prata", serif;
 	--font-body: "Source Serif 4", serif;
