@@ -51,6 +51,6 @@
 }
 
 .bookingFormSubmitButton:disabled {
-	color: var(--color-light-gray);
+	color: var(--color-half-transparent-black);
 	cursor: not-allowed;
 }

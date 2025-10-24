@@ -16,7 +16,7 @@ const AdminPage: React.FC = () => {
 			setIsLogged(true);
 		}
 
-		fetch(`${apiUrl}/api/admins?populate=*`)
+		fetch(`${apiUrl}/api/users-forms?populate=*`)
 			.then((res) => res.json())
 			.then((data) => {
 				if (data.data) {
@@ -31,15 +31,6 @@ const AdminPage: React.FC = () => {
 			.finally(() => setLoading(false));
 	}, []);
 
-	// const loginHandler = () => {
-	// 	if (password === "1111") {
-	// 		setIsLogged(true);
-	// 		localStorage.setItem("isLogged", "true");
-	// 		setPassword("");
-	// 	} else {
-	// 		alert("Wrong password");
-	// 	}
-	// };
 	const loginHandler = async () => {
 		try {
 			const res = await fetch(`${apiUrl}/api/check-pin`, {

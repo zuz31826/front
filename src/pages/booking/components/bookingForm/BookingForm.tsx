@@ -32,7 +32,7 @@ const BookingForm = () => {
 			date: bookingInfo.date,
 			place: bookingInfo.place,
 		};
-		fetch(`${apiUrl}/api/admins`, {
+		fetch(`${apiUrl}/api/users-forms`, {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({ data: orderPayload }),
@@ -71,17 +71,17 @@ const BookingForm = () => {
 			<p className="bookingFormSubtitle">Personal information:</p>
 			<div className="bookingFormInputsContainer">
 				<Input
-					text="Name / pronouns:"
+					text="Name / pronouns*"
 					value={bookingInfo.name}
 					onChange={(value) => changeHandler("name", value)}
 				/>
 				<Input
-					text="Instagram:"
+					text="Instagram"
 					value={bookingInfo.instagram}
 					onChange={(value) => changeHandler("instagram", value)}
 				/>
 				<Input
-					text="E-mail:"
+					text="E-mail*"
 					value={bookingInfo.email}
 					onChange={(value) => changeHandler("email", value)}
 				/>
@@ -90,25 +90,25 @@ const BookingForm = () => {
 			<p className="bookingFormSubtitle">About tattoo:</p>
 			<div className="bookingFormInputsContainer">
 				<Input
-					text="Size & placement:"
+					text="Size & placement*"
 					value={bookingInfo.size}
 					onChange={(value) => changeHandler("size", value)}
 				/>
 				<Input
-					text="About your vision:"
+					text="About your vision*"
 					multiple
 					value={bookingInfo.vision}
 					onChange={(value) => changeHandler("vision", value)}
 				/>
 				<Input
-					text="Date of appointment:"
+					text="Date of appointment*"
 					value={bookingInfo.date}
 					onChange={(value) => changeHandler("date", value)}
 				/>
 				<p className="bookingFormInfoText">{`(check my instagram for available date)`}</p>
 
 				<RadioInput
-					text="Appointment in:"
+					text="Appointment in*"
 					options={["Poznan", "Berlin"]}
 					selectedOption={bookingInfo.place}
 					onChange={(value) => changeHandler("place", value)}
