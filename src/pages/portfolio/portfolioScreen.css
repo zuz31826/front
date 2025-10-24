@@ -1,0 +1,32 @@
+.portfolioContainer {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 30px;
+	padding: 40px;
+	background-color: var(--color-white);
+	min-height: 100vh;
+	margin: 80px 0;
+	box-sizing: border-box;
+}
+
+.portfolioItem {
+	width: 100%;
+	overflow: hidden;
+}
+
+.portfolioImage {
+	width: 100%;
+	height: auto;
+	display: block;
+	object-fit: cover;
+	cursor: pointer;
+}
+
+@media (max-width: 768px) {
+	.portfolioContainer {
+		grid-template-columns: 1fr;
+		gap: 20px;
+		padding: 20px;
+		margin: clamp(50px, 11vw, 70px) 0;
+	}
+}
