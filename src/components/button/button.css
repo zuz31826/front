@@ -1,7 +1,7 @@
 .buttonContainer {
 	width: clamp(150px, 30vw, 228px);
 	height: clamp(50px, 8vw, 62px);
-	border: 1px solid var(--color-black);
+	background-color: rgba(108, 121, 172, 0.5);
 	align-items: center;
 	justify-content: center;
 	display: flex;

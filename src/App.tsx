@@ -8,6 +8,7 @@ import HomeScreen from "./pages/home/HomeScreen";
 import IllustrationScreen from "./pages/illustration/IllustrationScreen";
 import TattooScreen from "./pages/tattoo/TattooScreen";
 import BookingScreen from "./pages/booking/BookingScreen";
+import ScrollToTop from "./components/ScrollToTop";
 import Header from "./components/header/Header";
 import "./styles/app.css";
 
@@ -16,7 +17,8 @@ const AppRoutes: React.FC = () => {
 
 	return (
 		<div className="container">
-			{<Header />}
+			<ScrollToTop />
+			<Header />
 			<main className="main">
 				<Routes>
 					<Route path="/" element={<HomeScreen />} />

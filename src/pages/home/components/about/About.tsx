@@ -22,7 +22,11 @@ const About: React.FC = () => {
 					alt="Tattoo"
 					onClick={() => navigation("/tattoo")}
 				/>
-				<ButtonImg image={illustration} alt="Illustration" />
+				<ButtonImg
+					image={illustration}
+					alt="Illustration"
+					onClick={() => navigation("/illustration")}
+				/>
 			</div>
 
 			<p className="aboutText">
