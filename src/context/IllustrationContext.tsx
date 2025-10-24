@@ -8,7 +8,7 @@ import {
 import axios from "axios";
 import type { Illustration } from "../types";
 
-const apiUrl = import.meta.env.VITE_API_URL;
+const apiUrl = import.meta.env.VITE_APP_STRAPI_URL;
 
 interface IllustrationContextType {
 	illustrations: Illustration[];
@@ -32,7 +32,7 @@ export function IllustrationProvider({ children }: { children: ReactNode }) {
 		}
 
 		axios
-			.get(apiUrl)
+			.get(`${apiUrl}/api/illustrations?populate=*`)
 			.then((res) => {
 				const data = res.data.data;
 				setIllustrations(data);

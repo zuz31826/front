@@ -48,3 +48,13 @@ export interface Illustration {
 	publishedAt: string;
 	updatedAt: string;
 }
+
+export interface Portfolio {
+	portfolio: StrapiImage[];
+	description?: string;
+	id: number;
+	createdAt: string;
+	documentId: string;
+	publishedAt: string;
+	updatedAt: string;
+}

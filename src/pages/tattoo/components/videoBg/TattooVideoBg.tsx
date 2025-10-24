@@ -6,12 +6,13 @@ const TattooVideoBg: React.FC = () => {
 	const navigation = useNavigate();
 
 	const handleBookTattoo = () => navigation("/booking");
+	const handlePortfolio = () => navigation("/portfolio");
 
 	return (
 		<div className="tattooVideoBgContainer">
 			<div className="tattooVideoBgButtonsContainer">
 				<Button text="Book a tattoo" onClick={handleBookTattoo} />
-				<Button text="Portfolio" />
+				<Button text="Portfolio" onClick={handlePortfolio} />
 			</div>
 			<video
 				src="/video/video2.mp4"
