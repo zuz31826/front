@@ -1,20 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Input from "../../../../components/input/Input";
 import RadioInput from "../../../../components/radioInput/RadioInput";
+import type { BookingInfo } from "../../../../types";
 import "./bookingForm.css";
 
-type bookingInfo = {
-	name: string;
-	instagram: string;
-	email: string;
-	size: string;
-	vision: string;
-	date: string;
-	place: "Poznan" | "Berlin" | "";
-};
+const apiUrl = import.meta.env.VITE_APP_STRAPI_URL;
 
 const BookingForm = () => {
-	const [bookingInfo, setBookingInfo] = useState<bookingInfo>({
+	const [bookingInfo, setBookingInfo] = useState<BookingInfo>({
 		name: "",
 		instagram: "",
 		email: "",
@@ -23,10 +16,53 @@ const BookingForm = () => {
 		date: "",
 		place: "",
 	});
+	const [isSubmitted, setIsSubmitted] = useState(false);
 
-	const changeHandler = (field: keyof bookingInfo, value: string) => {
+	const changeHandler = (field: keyof BookingInfo, value: string) => {
 		setBookingInfo({ ...bookingInfo, [field]: value });
 	};
+
+	const submitHandler = () => {
+		const orderPayload: BookingInfo = {
+			name: bookingInfo.name,
+			instagram: bookingInfo.instagram,
+			email: bookingInfo.email,
+			size: bookingInfo.size,
+			vision: bookingInfo.vision,
+			date: bookingInfo.date,
+			place: bookingInfo.place,
+		};
+		fetch(`${apiUrl}/api/admins`, {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ data: orderPayload }),
+		})
+			.then((res) => {
+				if (!res.ok) throw new Error(`Error: ${res.status}`);
+				setBookingInfo({
+					name: "",
+					instagram: "",
+					email: "",
+					size: "",
+					vision: "",
+					date: "",
+					place: "",
+				});
+				setIsSubmitted(true);
+				return res.json();
+			})
+			.then(() => console.log("Form submitted"))
+			.catch((err) => console.error("Failed:", err));
+	};
+
+	useEffect(() => {
+		if (isSubmitted) {
+			const timer = setTimeout(() => {
+				setIsSubmitted(false);
+			}, 3000);
+			return () => clearTimeout(timer);
+		}
+	}, [isSubmitted]);
 
 	return (
 		<div className="bookingFormContainer">
@@ -79,20 +115,24 @@ const BookingForm = () => {
 				/>
 			</div>
 
-			<button
-				className="bookingFormSubmitButton"
-				onClick={() => console.log(bookingInfo)}
-				disabled={
-					!bookingInfo.name ||
-					!bookingInfo.email ||
-					!bookingInfo.size ||
-					!bookingInfo.vision ||
-					!bookingInfo.date ||
-					!bookingInfo.place
-				}
-			>
-				Submit
-			</button>
+			{isSubmitted ? (
+				<p className="bookingFormSubmitButton">Thank you</p>
+			) : (
+				<button
+					className="bookingFormSubmitButton"
+					onClick={submitHandler}
+					disabled={
+						!bookingInfo.name ||
+						!bookingInfo.email ||
+						!bookingInfo.size ||
+						!bookingInfo.vision ||
+						!bookingInfo.date ||
+						!bookingInfo.place
+					}
+				>
+					Submit
+				</button>
+			)}
 		</div>
 	);
 };
