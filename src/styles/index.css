@@ -24,7 +24,7 @@ video {
 body {
 	font-family: var(--font-body);
 	font-weight: 300;
-	background-color: #fff;
+	background-color: var(--color-background);
 	color: #000;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;

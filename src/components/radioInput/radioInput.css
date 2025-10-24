@@ -32,7 +32,7 @@
 .radioInputRadio {
 	width: 16px;
 	height: 16px;
-	border: 2px solid var(--color-light-gray);
+	border: 2px solid var(--color-half-transparent-black);
 	cursor: pointer;
 	appearance: none;
 }

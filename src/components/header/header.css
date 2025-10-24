@@ -1,7 +1,7 @@
 .header {
 	width: 100%;
 	height: clamp(50px, 10vw, 70px);
-	background-color: var(--color-white);
+	background-color: var(--color-background);
 	padding: 0 clamp(16px, 3vw, 40px);
 	display: flex;
 	justify-content: space-between;

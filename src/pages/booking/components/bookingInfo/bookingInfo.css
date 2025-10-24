@@ -7,7 +7,7 @@
 }
 
 .bookingInfoItem {
-	border-bottom: 1px solid var(--color-shadow-black);
+	border-bottom: 1px solid var(--color-half-transparent-black);
 }
 
 .bookingInfoButton {
