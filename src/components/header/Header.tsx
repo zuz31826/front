@@ -78,7 +78,35 @@ const Header: React.FC = () => {
 				</button>
 				<ul className="sidebar__menu">
 					<li onClick={() => navigationHandler("/tattoo")}>Tattoo work</li>
+
+					<li
+						className="sidebar__menu_margin"
+						onClick={() => navigationHandler("/booking")}
+					>
+						Book a tattoo
+					</li>
+					<li
+						className="sidebar__menu_margin"
+						onClick={() => navigationHandler("/portfolio")}
+					>
+						Portfolio
+					</li>
+
 					<li>Visual art</li>
+					<li
+						className="sidebar__menu_margin"
+						onClick={() => navigationHandler("/painting")}
+					>
+						Paintings
+					</li>
+					<li
+						className="sidebar__menu_margin"
+						onClick={() => navigationHandler("/illustration")}
+					>
+						Illustration
+					</li>
+					<li className="sidebar__menu_margin">Sketchbook</li>
+
 					<li>Collaboration</li>
 					<li>About me</li>
 					<li>Contact</li>

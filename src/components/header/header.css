@@ -88,6 +88,10 @@
 	transition: color 0.2s ease;
 }
 
+.sidebar__menu_margin {
+	margin-left: 30px;
+}
+
 .sidebar__menu li:hover {
 	color: var(--color-gray);
 }

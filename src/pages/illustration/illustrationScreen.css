@@ -79,7 +79,7 @@
 
 .illustrationBorder {
 	position: fixed;
-	height: 100vh;
+	height: calc(var(--vh, 1vh) * 100);
 	width: auto;
 	object-fit: cover;
 	z-index: 1;

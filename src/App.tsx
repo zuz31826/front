@@ -4,7 +4,7 @@ import {
 	IllustrationProvider,
 	useIllustrations,
 } from "./context/IllustrationContext";
-import { PaintingProvider } from "./context/PaintingContext";
+import { PaintingProvider, usePaintings } from "./context/PaintingContext";
 import { PortfolioProvider, usePortfolio } from "./context/portfolioContext";
 
 import HomeScreen from "./pages/home/HomeScreen";
@@ -21,6 +21,7 @@ import "./styles/app.css";
 
 const AppRoutes: React.FC = () => {
 	useIllustrations();
+	usePaintings();
 	usePortfolio();
 
 	const location = useLocation();
