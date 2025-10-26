@@ -38,7 +38,20 @@ export interface StrapiImage {
 }
 
 export interface Illustration {
+	image: StrapiImage[];
+	description?: string;
+
+	id: number;
+	createdAt: string;
+	documentId: string;
+	publishedAt: string;
+	updatedAt: string;
+}
+
+export interface Painting {
 	name: string;
+	size: string;
+	materials: string;
 	image: StrapiImage;
 	description?: string;
 

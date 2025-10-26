@@ -1,0 +1,99 @@
+.illustrationContainer {
+	position: relative;
+	padding: 0 clamp(16px, 3vw, 40px);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	/* here */
+	background-color: #a7a7a7;
+}
+
+.illustrationColumn {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 40px;
+	margin-top: clamp(80px, 10vw, 140px);
+	margin-bottom: clamp(40px, 5vw, 80px);
+	z-index: 2;
+}
+
+.illustrationWrapper {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.illustrationWrapper.horizontal {
+	max-width: clamp(250px, 60vw, 900px);
+}
+
+.illustrationWrapper.vertical {
+	max-width: clamp(200px, 50vw, 600px);
+}
+
+.illustrationWrapper.variant-0 {
+	transform: scale(0.98);
+}
+
+.illustrationWrapper.variant-1 {
+	transform: scale(1.02);
+}
+
+.illustrationWrapper.variant-2 {
+	transform: scale(1);
+}
+
+.illustrationImage {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	border: 1px solid var(--color-black);
+	z-index: 2;
+	opacity: 0;
+	transition: opacity 0.4s ease;
+}
+
+.illustrationImage.visible {
+	opacity: 1;
+	position: relative;
+}
+
+.illustrationImage.hidden {
+	opacity: 0;
+}
+
+.illustrationSkeleton {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	display: block;
+}
+
+.illustrationBorder {
+	position: fixed;
+	height: 100vh;
+	width: auto;
+	object-fit: cover;
+	z-index: 1;
+	opacity: 0.9;
+	pointer-events: none;
+	padding-top: 70px;
+}
+
+.illustrationBorder.left {
+	left: clamp(0px, 2vw, 60px);
+	transform: none;
+}
+
+.illustrationBorder.right {
+	right: clamp(0px, 2vw, 60px);
+	transform: scaleX(-1);
+}

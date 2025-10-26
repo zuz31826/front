@@ -15,7 +15,7 @@ const About: React.FC = () => {
 				<ButtonImg
 					image={painting}
 					alt="Painting"
-					onClick={() => console.log("Painting clicked")}
+					onClick={() => navigation("/painting")}
 				/>
 				<ButtonImg
 					image={tattoo}
