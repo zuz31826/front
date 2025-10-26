@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import burger from "../../assets/images/burger.png";
 import name from "../../assets/images/name.png";
 import "./header.css";
-import { useNavigate } from "react-router-dom";
 
 const Header: React.FC = () => {
 	const navigation = useNavigate();
@@ -46,12 +46,14 @@ const Header: React.FC = () => {
 					className="headerNameImg"
 					onClick={() => navigationHandler("/")}
 				/>
-				<img
-					src={burger}
-					alt="Menu"
-					className="headerBurgerImg"
-					onClick={() => setMenuOpen(true)}
-				/>
+				<div className="headerBurgerImgContainer">
+					<img
+						src={burger}
+						alt="Menu"
+						className="headerBurgerImg"
+						onClick={() => setMenuOpen(true)}
+					/>
+				</div>
 			</div>
 
 			<div

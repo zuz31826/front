@@ -17,21 +17,35 @@ const BookingForm = () => {
 		place: "",
 	});
 	const [isSubmitted, setIsSubmitted] = useState(false);
+	const [touched, setTouched] = useState<Record<keyof BookingInfo, boolean>>({
+		name: false,
+		instagram: false,
+		email: false,
+		size: false,
+		vision: false,
+		date: false,
+		place: false,
+	});
 
 	const changeHandler = (field: keyof BookingInfo, value: string) => {
 		setBookingInfo({ ...bookingInfo, [field]: value });
+		if (touched[field]) setTouched({ ...touched, [field]: false });
 	};
 
 	const submitHandler = () => {
-		const orderPayload: BookingInfo = {
-			name: bookingInfo.name,
-			instagram: bookingInfo.instagram,
-			email: bookingInfo.email,
-			size: bookingInfo.size,
-			vision: bookingInfo.vision,
-			date: bookingInfo.date,
-			place: bookingInfo.place,
-		};
+		const emptyFields = Object.entries(bookingInfo)
+			.filter(([_, value]) => !value.trim())
+			.map(([key]) => key as keyof BookingInfo);
+
+		if (emptyFields.length > 0) {
+			const updatedTouched = { ...touched };
+			emptyFields.forEach((key) => (updatedTouched[key] = true));
+			setTouched(updatedTouched);
+			return;
+		}
+
+		const orderPayload: BookingInfo = { ...bookingInfo };
+
 		fetch(`${apiUrl}/api/users-forms`, {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
@@ -71,65 +85,63 @@ const BookingForm = () => {
 			<p className="bookingFormSubtitle">Personal information:</p>
 			<div className="bookingFormInputsContainer">
 				<Input
-					text="Name / pronouns*"
+					text="Name / pronouns:"
 					value={bookingInfo.name}
 					onChange={(value) => changeHandler("name", value)}
+					error={touched.name && !bookingInfo.name}
 				/>
 				<Input
 					text="Instagram"
 					value={bookingInfo.instagram}
 					onChange={(value) => changeHandler("instagram", value)}
+					error={touched.instagram && !bookingInfo.instagram}
 				/>
 				<Input
-					text="E-mail*"
+					text="E-mail:"
 					value={bookingInfo.email}
 					onChange={(value) => changeHandler("email", value)}
+					error={touched.email && !bookingInfo.email}
 				/>
 			</div>
 
 			<p className="bookingFormSubtitle">About tattoo:</p>
 			<div className="bookingFormInputsContainer">
 				<Input
-					text="Size & placement*"
+					text="Size & placement:"
 					value={bookingInfo.size}
 					onChange={(value) => changeHandler("size", value)}
+					error={touched.size && !bookingInfo.size}
 				/>
 				<Input
-					text="About your vision*"
+					text="About your vision:"
 					multiple
 					value={bookingInfo.vision}
 					onChange={(value) => changeHandler("vision", value)}
+					error={touched.vision && !bookingInfo.vision}
 				/>
 				<Input
-					text="Date of appointment*"
+					text="Date of appointment:"
 					value={bookingInfo.date}
 					onChange={(value) => changeHandler("date", value)}
+					error={touched.date && !bookingInfo.date}
 				/>
-				<p className="bookingFormInfoText">{`(check my instagram for available date)`}</p>
+				<p className="bookingFormInfoText">
+					(check my instagram for available date)
+				</p>
 
 				<RadioInput
-					text="Appointment in*"
+					text="Appointment in:"
 					options={["Poznan", "Berlin"]}
 					selectedOption={bookingInfo.place}
 					onChange={(value) => changeHandler("place", value)}
+					error={touched.place && !bookingInfo.place}
 				/>
 			</div>
 
 			{isSubmitted ? (
 				<p className="bookingFormSubmitButton">Thank you</p>
 			) : (
-				<button
-					className="bookingFormSubmitButton"
-					onClick={submitHandler}
-					disabled={
-						!bookingInfo.name ||
-						!bookingInfo.email ||
-						!bookingInfo.size ||
-						!bookingInfo.vision ||
-						!bookingInfo.date ||
-						!bookingInfo.place
-					}
-				>
+				<button className="bookingFormSubmitButton" onClick={submitHandler}>
 					Submit
 				</button>
 			)}
