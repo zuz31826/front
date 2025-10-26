@@ -35,10 +35,29 @@
 	border: 2px solid var(--color-half-transparent-black);
 	cursor: pointer;
 	appearance: none;
+
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	background: none;
+	border: 2px solid var(--color-half-transparent-black);
+	width: 16px;
+	height: 16px;
+	cursor: pointer;
+	display: inline-block;
+	border-radius: 0;
+	box-sizing: border-box;
+	transition: border 0.3s ease;
 }
 
 .radioInputRadio:checked {
 	border: 6px solid var(--color-black);
+}
+
+.radioInputRadio:focus,
+.radioInputRadio:active {
+	outline: none;
+	-webkit-tap-highlight-color: transparent;
 }
 
 .radioInputError .radioInputRadio {
