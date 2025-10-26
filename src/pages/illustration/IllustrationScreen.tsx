@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useIllustrations } from "../../context/IllustrationContext";
 import Skeleton from "../../components/skeleton/Skeleton";
 import border from "../../assets/images/pageBorder.png";
@@ -21,6 +21,16 @@ const IllustrationScreen: React.FC = () => {
 		setOrientationMap((prev) => ({ ...prev, [id]: orientation }));
 		setLoadedImages((prev) => ({ ...prev, [id]: true }));
 	};
+
+	useEffect(() => {
+		const setVh = () => {
+			const vh = window.innerHeight * 0.01;
+			document.documentElement.style.setProperty("--vh", `${vh}px`);
+		};
+		setVh();
+		window.addEventListener("resize", setVh);
+		return () => window.removeEventListener("resize", setVh);
+	}, []);
 
 	if (loading) {
 		return (
