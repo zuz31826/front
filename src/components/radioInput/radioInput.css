@@ -40,3 +40,7 @@
 .radioInputRadio:checked {
 	border: 6px solid var(--color-black);
 }
+
+.radioInputError .radioInputRadio {
+	border: 2px solid var(--color-red) !important;
+}

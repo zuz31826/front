@@ -5,6 +5,7 @@ type Props = {
 	options: string[];
 	selectedOption: string;
 	onChange: (value: string) => void;
+	error?: boolean;
 };
 
 const RadioInput: React.FC<Props> = ({
@@ -12,11 +13,16 @@ const RadioInput: React.FC<Props> = ({
 	options,
 	selectedOption,
 	onChange,
+	error,
 }) => {
 	return (
 		<div className="radioInputContainer">
 			<p className="radioInputLabel">{text}</p>
-			<div className="radioInputOptionsContainer">
+			<div
+				className={`radioInputOptionsContainer ${
+					error ? "radioInputError" : ""
+				}`}
+			>
 				{options.map((option) => (
 					<label key={option} className="radioInputLabel">
 						<input
