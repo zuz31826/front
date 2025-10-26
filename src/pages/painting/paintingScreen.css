@@ -1,0 +1,132 @@
+.paintingContainer {
+	position: relative;
+	padding: 0 clamp(16px, 3vw, 40px);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	/* here */
+	background-color: #a7a7a7;
+}
+
+.paintingColumn {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 40px;
+	margin-top: clamp(80px, 10vw, 140px);
+	margin-bottom: clamp(40px, 5vw, 80px);
+	z-index: 2;
+}
+
+.paintingWrapper {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+}
+
+.paintingWrapper.horizontal {
+	max-width: clamp(250px, 60vw, 900px);
+}
+
+.paintingWrapper.vertical {
+	max-width: clamp(200px, 50vw, 600px);
+}
+
+.paintingWrapper.variant-0 {
+	transform: scale(0.98);
+}
+
+.paintingWrapper.variant-1 {
+	transform: scale(1.02);
+}
+
+.paintingWrapper.variant-2 {
+	transform: scale(1);
+}
+
+.paintingImage {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	border: 1px solid var(--color-black);
+	z-index: 2;
+	opacity: 0;
+	transition: opacity 0.4s ease;
+}
+
+.paintingImage.visible {
+	opacity: 1;
+	position: relative;
+}
+
+.paintingImage.hidden {
+	opacity: 0;
+}
+
+.paintingSkeleton {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	display: block;
+}
+
+.paintingOverlay {
+	position: absolute;
+	inset: 0;
+	background: var(--color-half-transparent-black);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	color: var(--color-white);
+	opacity: 0;
+	transition: opacity 0.3s ease;
+	z-index: 3;
+	padding: 20px;
+}
+
+.paintingWrapper:hover .paintingOverlay {
+	opacity: 1;
+}
+
+.paintingInfoName {
+	font-family: var(--font-heading);
+	font-size: clamp(20px, 2vw, 32px);
+}
+
+.paintingInfoText {
+	font-family: var(--font-body);
+	font-size: clamp(14px, 1.5vw, 24px);
+	margin: 2px 0;
+	margin-bottom: 20px;
+}
+
+.paintingBorder {
+	position: fixed;
+	height: 100vh;
+	width: auto;
+	object-fit: cover;
+	z-index: 1;
+	opacity: 0.9;
+	pointer-events: none;
+	padding-top: 70px;
+}
+
+.paintingBorder.left {
+	left: clamp(0px, 2vw, 60px);
+	transform: none;
+}
+
+.paintingBorder.right {
+	right: clamp(0px, 2vw, 60px);
+	transform: scaleX(-1);
+}

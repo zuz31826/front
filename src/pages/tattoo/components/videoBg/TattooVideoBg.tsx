@@ -14,7 +14,7 @@ const TattooVideoBg: React.FC = () => {
 			video = (window as any)._cachedTattooVideo;
 		} else {
 			video = document.createElement("video");
-			video.src = "/video/video2.mp4";
+			video.src = "/video/video2.webm";
 			video.autoplay = true;
 			video.muted = true;
 			video.loop = true;

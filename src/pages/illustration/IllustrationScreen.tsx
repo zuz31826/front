@@ -1,21 +1,30 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useIllustrations } from "../../context/IllustrationContext";
 import Skeleton from "../../components/skeleton/Skeleton";
-import { getImageUrl } from "../../utils";
-import "./illustration.css";
+import border from "../../assets/images/pageBorder.png";
+import "./illustrationScreen.css";
 
 const IllustrationScreen: React.FC = () => {
 	const { illustrations, loading } = useIllustrations();
-	const [activeId, setActiveId] = useState<number | null>(null);
+	const [loadedImages, setLoadedImages] = useState<Record<number, boolean>>({});
+	const [orientationMap, setOrientationMap] = useState<Record<number, string>>(
+		{}
+	);
 
-	const handleClick = (id: number) => {
-		setActiveId((prev) => (prev === id ? null : id));
+	const handleImageLoad = (
+		id: number,
+		e: React.SyntheticEvent<HTMLImageElement>
+	) => {
+		const img = e.currentTarget;
+		const orientation =
+			img.naturalWidth > img.naturalHeight ? "horizontal" : "vertical";
+		setOrientationMap((prev) => ({ ...prev, [id]: orientation }));
+		setLoadedImages((prev) => ({ ...prev, [id]: true }));
 	};
 
 	if (loading) {
 		return (
 			<div className="illustrationContainer">
-				<p className="illustrationText">Illustrations</p>
 				<Skeleton className="illustrationSkeleton" />
 			</div>
 		);
@@ -23,23 +32,28 @@ const IllustrationScreen: React.FC = () => {
 
 	return (
 		<div className="illustrationContainer">
-			<p className="illustrationText">Illustrations</p>
+			<img src={border} alt="border" className="illustrationBorder left" />
+			<img src={border} alt="border" className="illustrationBorder right" />
 
-			<div className="illustrationGrid">
-				{illustrations.map((illustration) => (
+			<div className="illustrationColumn">
+				{illustrations[0]?.image.map((illustration, index) => (
 					<div
 						key={illustration.id}
 						className={`illustrationWrapper ${
-							activeId === illustration.id ? "is-active" : ""
-						}`}
-						onClick={() => handleClick(illustration.id)}
+							orientationMap[illustration.id] || ""
+						} variant-${index % 3}`}
 					>
+						{!loadedImages[illustration.id] && (
+							<Skeleton className="illustrationSkeleton" />
+						)}
 						<img
-							className="illustrationImage"
-							src={getImageUrl(illustration.image)}
-							alt={illustration.image?.alternativeText || "image"}
+							className={`illustrationImage ${
+								loadedImages[illustration.id] ? "visible" : "hidden"
+							} ${orientationMap[illustration.id] || ""}`}
+							src={illustration?.url}
+							alt={illustration?.alternativeText || "illustration"}
+							onLoad={(e) => handleImageLoad(illustration.id, e)}
 						/>
-						<div className="illustrationPopup">{illustration.name}</div>
 					</div>
 				))}
 			</div>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import burger from "../../assets/images/burger.png";
 import name from "../../assets/images/name.png";
@@ -7,29 +7,38 @@ import "./header.css";
 const Header: React.FC = () => {
 	const navigation = useNavigate();
 	const [show, setShow] = useState(true);
-	const [lastScrollY, setLastScrollY] = useState(0);
 	const [menuOpen, setMenuOpen] = useState(false);
+	const lastScrollY = useRef(0);
 
 	useEffect(() => {
+		let ticking = false;
+
 		const handleScroll = () => {
-			if (window.scrollY > lastScrollY) {
-				setShow(false);
-			} else {
-				setShow(true);
+			const currentScrollY =
+				window.scrollY || document.documentElement.scrollTop || 0;
+
+			if (Math.abs(currentScrollY - lastScrollY.current) < 4) return;
+
+			if (!ticking) {
+				window.requestAnimationFrame(() => {
+					if (currentScrollY > lastScrollY.current && currentScrollY > 60) {
+						setShow(false);
+					} else {
+						setShow(true);
+					}
+					lastScrollY.current = currentScrollY;
+					ticking = false;
+				});
+				ticking = true;
 			}
-			setLastScrollY(window.scrollY);
 		};
 
-		window.addEventListener("scroll", handleScroll);
+		window.addEventListener("scroll", handleScroll, { passive: true });
 		return () => window.removeEventListener("scroll", handleScroll);
-	}, [lastScrollY]);
+	}, []);
 
 	useEffect(() => {
-		if (menuOpen) {
-			document.body.style.overflow = "hidden";
-		} else {
-			document.body.style.overflow = "auto";
-		}
+		document.body.style.overflow = menuOpen ? "hidden" : "auto";
 	}, [menuOpen]);
 
 	const navigationHandler = (path: string) => {
@@ -39,7 +48,9 @@ const Header: React.FC = () => {
 
 	return (
 		<>
-			<div className={`header ${show ? "header--visible" : "header--hidden"}`}>
+			<header
+				className={`header ${show ? "header--visible" : "header--hidden"}`}
+			>
 				<img
 					src={name}
 					alt="Name"
@@ -54,14 +65,14 @@ const Header: React.FC = () => {
 						onClick={() => setMenuOpen(true)}
 					/>
 				</div>
-			</div>
+			</header>
 
 			<div
 				className={`overlay ${menuOpen ? "overlay--visible" : ""}`}
 				onClick={() => setMenuOpen(false)}
 			/>
 
-			<div className={`sidebar ${menuOpen ? "sidebar--open" : ""}`}>
+			<aside className={`sidebar ${menuOpen ? "sidebar--open" : ""}`}>
 				<button className="sidebar__close" onClick={() => setMenuOpen(false)}>
 					×
 				</button>
@@ -72,7 +83,7 @@ const Header: React.FC = () => {
 					<li>About me</li>
 					<li>Contact</li>
 				</ul>
-			</div>
+			</aside>
 		</>
 	);
 };

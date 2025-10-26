@@ -16,7 +16,7 @@ const HomeVideoBg: React.FC = () => {
 			video = (window as any)._cachedVideo;
 		} else {
 			video = document.createElement("video");
-			video.src = "/video/video.mp4";
+			video.src = "/video/bgvid.mp4";
 			video.autoplay = true;
 			video.muted = true;
 			video.loop = true;
