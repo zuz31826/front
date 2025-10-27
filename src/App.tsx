@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { Analytics } from "@vercel/analytics/react";
 
-import { PortfolioProvider, usePortfolio } from "./context/portfolioContext";
+import { PortfolioProvider, usePortfolio } from "./context/PortfolioContext";
 import { PaintingProvider, usePaintings } from "./context/PaintingContext";
 import {
 	IllustrationProvider,
