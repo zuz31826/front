@@ -1,7 +1,7 @@
 import React from "react";
-import { usePortfolio } from "../../context/PortfolioContext";
 import Skeleton from "../../components/skeleton/Skeleton";
 import "./portfolioScreen.css";
+import { usePortfolio } from "../../context/PfdfasContext";
 
 const PortfolioScreen: React.FC = () => {
 	const { portfolio, loading } = usePortfolio();
