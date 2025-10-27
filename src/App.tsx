@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { Analytics } from "@vercel/analytics/react";
 
+import { PortfolioProvider, usePortfolio } from "./context/portfolioContext";
 import { PaintingProvider, usePaintings } from "./context/PaintingContext";
 import {
 	IllustrationProvider,
@@ -21,7 +22,6 @@ import AdminPage from "./pages/admin/AdminPage";
 import ScrollToTop from "./components/ScrollToTop";
 import Header from "./components/header/Header";
 import "./styles/app.css";
-import { PortfolioProvider, usePortfolio } from "./context/PfdfasContext";
 
 const AppRoutes: React.FC = () => {
 	useIllustrations();
