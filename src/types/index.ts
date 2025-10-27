@@ -62,6 +62,17 @@ export interface Painting {
 	updatedAt: string;
 }
 
+export interface Sketches {
+	image: StrapiImage[];
+	description?: string;
+
+	id: number;
+	createdAt: string;
+	documentId: string;
+	publishedAt: string;
+	updatedAt: string;
+}
+
 export interface Portfolio {
 	portfolio: StrapiImage[];
 	description?: string;

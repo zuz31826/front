@@ -40,6 +40,7 @@ const HomeVideoBg: React.FC = () => {
 
 	return (
 		<div className="homeVideoBgContainer" ref={containerRef}>
+			<div className="homeVideoBgOverlay" />
 			<div className="homeVideoBgButtonsContainer">
 				<ButtonImg
 					image={tattoo}

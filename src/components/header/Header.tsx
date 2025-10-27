@@ -105,7 +105,12 @@ const Header: React.FC = () => {
 					>
 						Illustration
 					</li>
-					<li className="sidebar__menu_margin">Sketchbook</li>
+					<li
+						className="sidebar__menu_margin"
+						onClick={() => navigationHandler("/sketch")}
+					>
+						Sketchbook
+					</li>
 
 					<li>Collaboration</li>
 					<li>About me</li>

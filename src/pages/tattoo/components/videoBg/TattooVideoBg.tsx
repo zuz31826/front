@@ -41,6 +41,7 @@ const TattooVideoBg: React.FC = () => {
 
 	return (
 		<div className="tattooVideoBgContainer" ref={containerRef}>
+			<div className="tattooVideoBgOverlay" />
 			<div className="tattooVideoBgButtonsContainer">
 				<Button text="Book a tattoo" onClick={handleBookTattoo} />
 				<Button text="Portfolio" onClick={handlePortfolio} />
