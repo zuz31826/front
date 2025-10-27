@@ -9,12 +9,13 @@ const TattooVideoBg: React.FC = () => {
 
 	useEffect(() => {
 		let video: HTMLVideoElement;
+		const cachedKey = "_cachedTattooVideo";
 
-		if ((window as any)._cachedTattooVideo) {
-			video = (window as any)._cachedTattooVideo;
+		if ((window as any)[cachedKey]) {
+			video = (window as any)[cachedKey];
 		} else {
 			video = document.createElement("video");
-			video.src = "/video/video2.webm";
+			video.src = "/video/tattoo.webm";
 			video.autoplay = true;
 			video.muted = true;
 			video.loop = true;
@@ -24,7 +25,7 @@ const TattooVideoBg: React.FC = () => {
 			video.addEventListener("loadeddata", () => {
 				video.classList.add("loaded");
 			});
-			(window as any)._cachedTattooVideo = video;
+			(window as any)[cachedKey] = video;
 		}
 
 		if (containerRef.current && !containerRef.current.contains(video)) {

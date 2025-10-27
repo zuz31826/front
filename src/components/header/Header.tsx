@@ -92,7 +92,7 @@ const Header: React.FC = () => {
 						Portfolio
 					</li>
 
-					<li>Visual art</li>
+					<li onClick={() => navigationHandler("/visual-art")}>Visual art</li>
 					<li
 						className="sidebar__menu_margin"
 						onClick={() => navigationHandler("/painting")}

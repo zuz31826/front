@@ -1,5 +1,5 @@
 import React from "react";
-import { usePortfolio } from "../../context/portfolioContext";
+import { usePortfolio } from "../../context/PortfolioContext";
 import Skeleton from "../../components/skeleton/Skeleton";
 import "./portfolioScreen.css";
 

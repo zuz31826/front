@@ -1,0 +1,24 @@
+.visualArtScreenContainer {
+	margin: clamp(70px, 11vw, 100px) 0;
+}
+
+.visualArtScreenLink {
+	color: var(--color-black);
+	text-decoration: none;
+	font-size: clamp(24px, 2.5vw, 38px);
+	max-width: 1100px;
+	margin: clamp(10px, 4vw, 20px) auto 0 auto;
+	padding: 0 20px;
+	transition: color 0.3s ease;
+	text-align: center;
+}
+
+.visualArtScreenLink:hover {
+	color: var(--color-gray);
+}
+
+@media (max-width: 768px) {
+	.visualArtScreenLink {
+		font-size: clamp(16px, 4vw, 20px);
+	}
+}

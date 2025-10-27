@@ -5,7 +5,6 @@
 	max-width: 1100px;
 	margin: 0 auto clamp(10px, 4vw, 20px) auto;
 	padding: 0 20px;
-	transition: color 0.3s ease;
 	text-align: center;
 }
 
