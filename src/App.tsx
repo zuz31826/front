@@ -1,12 +1,13 @@
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { Analytics } from "@vercel/analytics/react";
+
+import { PortfolioProvider, usePortfolio } from "./context/PortfolioContext";
+import { PaintingProvider, usePaintings } from "./context/PaintingContext";
 import {
 	IllustrationProvider,
 	useIllustrations,
 } from "./context/IllustrationContext";
 import { SketchesProvider, useSketches } from "./context/SketchContext";
-import { PaintingProvider, usePaintings } from "./context/PaintingContext";
-import { PortfolioProvider, usePortfolio } from "./context/PortfolioContext";
 
 import HomeScreen from "./pages/home/HomeScreen";
 import TattooScreen from "./pages/tattoo/TattooScreen";
