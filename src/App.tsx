@@ -4,6 +4,7 @@ import {
 	IllustrationProvider,
 	useIllustrations,
 } from "./context/IllustrationContext";
+import { SketchesProvider, useSketches } from "./context/SketcheContext";
 import { PaintingProvider, usePaintings } from "./context/PaintingContext";
 import { PortfolioProvider, usePortfolio } from "./context/portfolioContext";
 
@@ -13,6 +14,7 @@ import TattooScreen from "./pages/tattoo/TattooScreen";
 import BookingScreen from "./pages/booking/BookingScreen";
 import PortfolioScreen from "./pages/portfolio/PortfolioScreen";
 import PaintingScreen from "./pages/painting/PaintingScreen";
+import SketchScreen from "./pages/sketch/SketchScreen";
 import AdminPage from "./pages/admin/AdminPage";
 
 import ScrollToTop from "./components/ScrollToTop";
@@ -23,6 +25,7 @@ const AppRoutes: React.FC = () => {
 	useIllustrations();
 	usePaintings();
 	usePortfolio();
+	useSketches();
 
 	const location = useLocation();
 	const hideHeader = location.pathname !== "/admin";
@@ -38,8 +41,10 @@ const AppRoutes: React.FC = () => {
 					<Route path="/tattoo" element={<TattooScreen />} />
 					<Route path="/booking" element={<BookingScreen />} />
 					<Route path="/portfolio" element={<PortfolioScreen />} />
-					<Route path="/admin" element={<AdminPage />} />
 					<Route path="/painting" element={<PaintingScreen />} />
+					<Route path="/sketch" element={<SketchScreen />} />
+
+					<Route path="/admin" element={<AdminPage />} />
 
 					{/* <Route path="*" element={<Navigate to="/404" replace />} />
 					<Route path="/404" element={<Error404 />} /> */}
@@ -53,12 +58,14 @@ function App() {
 	return (
 		<BrowserRouter>
 			<PaintingProvider>
-				<IllustrationProvider>
-					<PortfolioProvider>
-						<Analytics />
-						<AppRoutes />
-					</PortfolioProvider>
-				</IllustrationProvider>
+				<SketchesProvider>
+					<IllustrationProvider>
+						<PortfolioProvider>
+							<Analytics />
+							<AppRoutes />
+						</PortfolioProvider>
+					</IllustrationProvider>
+				</SketchesProvider>
 			</PaintingProvider>
 		</BrowserRouter>
 	);

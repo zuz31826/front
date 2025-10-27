@@ -1,4 +1,4 @@
-.illustrationContainer {
+.sketchContainer {
 	position: relative;
 	padding: 0 clamp(16px, 3vw, 40px);
 	display: flex;
@@ -8,10 +8,10 @@
 	min-height: calc(var(--vh, 1vh) * 100);
 	overflow-x: hidden;
 	/* here */
-	background-color: #a7a7a7;
+	/* background-color: #a7a7a7; */
 }
 
-.illustrationColumn {
+.sketchColumn {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -21,7 +21,7 @@
 	z-index: 2;
 }
 
-.illustrationWrapper {
+.sketchWrapper {
 	position: relative;
 	display: flex;
 	justify-content: center;
@@ -29,24 +29,25 @@
 	width: 100%;
 }
 
-.illustrationWrapper.horizontal {
+.sketchWrapper.horizontal {
 	max-width: clamp(250px, 60vw, 900px);
 }
-.illustrationWrapper.vertical {
+
+.sketchWrapper.vertical {
 	max-width: clamp(200px, 50vw, 600px);
 }
 
-.illustrationWrapper.variant-0 {
+.sketchWrapper.variant-0 {
 	transform: scale(0.98);
 }
-.illustrationWrapper.variant-1 {
+.sketchWrapper.variant-1 {
 	transform: scale(1.02);
 }
-.illustrationWrapper.variant-2 {
+.sketchWrapper.variant-2 {
 	transform: scale(1);
 }
 
-.illustrationImage {
+.sketchImage {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
@@ -57,20 +58,20 @@
 	box-shadow: 0 2px 8px var(--color-shadow-black);
 }
 
-.illustrationImage.visible {
+.sketchImage.visible {
 	opacity: 1;
 }
 
-.illustrationImage.hidden {
+.sketchImage.hidden {
 	opacity: 0;
 }
 
-.illustrationSkeleton {
+.sketchSkeleton {
 	width: 100%;
 	aspect-ratio: 4 / 3;
 }
 
-.illustrationSkeleton.active {
+.sketchSkeleton.active {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -78,12 +79,12 @@
 	height: 100%;
 }
 
-.illustrationSkeleton.placeholder {
+.sketchSkeleton.placeholder {
 	width: clamp(200px, 50vw, 700px);
 	aspect-ratio: 4 / 3;
 }
 
-.illustrationBorder {
+.sketchBorder {
 	position: fixed;
 	height: calc(var(--vh, 1vh) * 100);
 	width: auto;
@@ -94,11 +95,11 @@
 	padding-top: 70px;
 }
 
-.illustrationBorder.left {
+.sketchBorder.left {
 	left: clamp(0px, 2vw, 60px);
 }
 
-.illustrationBorder.right {
+.sketchBorder.right {
 	right: clamp(0px, 2vw, 60px);
 	transform: scaleX(-1);
 }

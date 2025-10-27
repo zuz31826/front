@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import { useIllustrations } from "../../context/IllustrationContext";
+import { useSketches } from "../../context/SketcheContext";
 import Skeleton from "../../components/skeleton/Skeleton";
-import border from "../../assets/images/pageBorder.png";
-import "./illustrationScreen.css";
+// import border from "../../assets/images/pageBorder.png";
+import "./sketchScreen.css";
 
 type Orientation = "horizontal" | "vertical";
 
-const IllustrationScreen: React.FC = () => {
-	const { illustrations, loading } = useIllustrations();
+const SketchScreen: React.FC = () => {
+	const { sketches, loading } = useSketches();
 
 	const [imageData, setImageData] = useState<
 		Record<number, { loaded: boolean; orientation: Orientation }>
@@ -38,46 +38,39 @@ const IllustrationScreen: React.FC = () => {
 	}, []);
 
 	return (
-		<div className="illustrationContainer">
-			<img src={border} alt="border" className="illustrationBorder left" />
-			<img src={border} alt="border" className="illustrationBorder right" />
+		<div className="sketchContainer">
+			{/* <img src={border} alt="border" className="sketchBorder left" />
+			<img src={border} alt="border" className="sketchBorder right" /> */}
 
-			<div className="illustrationColumn">
+			<div className="sketchColumn">
 				{loading && (
 					<>
 						{Array.from({ length: 6 }).map((_, i) => (
-							<Skeleton key={i} className="illustrationSkeleton placeholder" />
+							<Skeleton key={i} className="sketchSkeleton placeholder" />
 						))}
 					</>
 				)}
 
 				{!loading &&
-					illustrations[0]?.image?.map((illustration, index) => {
-						const data = imageData[illustration.id];
+					sketches[0]?.image?.map((sketch, index) => {
+						const data = imageData[sketch.id];
 						const orientation = data?.orientation || "";
 						const isLoaded = data?.loaded;
 
 						return (
 							<div
-								key={illustration.id}
-								className={`illustrationWrapper ${orientation} variant-${
-									index % 3
-								}`}
+								key={sketch.id}
+								className={`sketchWrapper ${orientation} variant-${index % 3}`}
 							>
-								{!isLoaded && (
-									<Skeleton className="illustrationSkeleton active" />
-								)}
+								{!isLoaded && <Skeleton className="sketchSkeleton active" />}
 
 								<img
-									className={`illustrationImage ${
+									className={`sketchImage ${
 										isLoaded ? "visible" : "hidden"
 									} ${orientation}`}
-									src={illustration.url}
-									alt={
-										illustration.alternativeText ||
-										`Illustration ${illustration.id}`
-									}
-									onLoad={(e) => handleImageLoad(illustration.id, e)}
+									src={sketch.url}
+									alt={sketch.alternativeText || `Sketch ${sketch.id}`}
+									onLoad={(e) => handleImageLoad(sketch.id, e)}
 									loading="lazy"
 								/>
 							</div>
@@ -88,4 +81,4 @@ const IllustrationScreen: React.FC = () => {
 	);
 };
 
-export default IllustrationScreen;
+export default SketchScreen;
