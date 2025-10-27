@@ -11,12 +11,13 @@ const HomeVideoBg: React.FC = () => {
 
 	useEffect(() => {
 		let video: HTMLVideoElement;
+		const cachedKey = "_cachedHomeVideo";
 
-		if ((window as any)._cachedVideo) {
-			video = (window as any)._cachedVideo;
+		if ((window as any)[cachedKey]) {
+			video = (window as any)[cachedKey];
 		} else {
 			video = document.createElement("video");
-			video.src = "/video/bgvid.mp4";
+			video.src = "/video/home.mp4";
 			video.autoplay = true;
 			video.muted = true;
 			video.loop = true;
@@ -26,7 +27,7 @@ const HomeVideoBg: React.FC = () => {
 			video.addEventListener("loadeddata", () => {
 				video.classList.add("loaded");
 			});
-			(window as any)._cachedVideo = video;
+			(window as any)[cachedKey] = video;
 		}
 
 		if (containerRef.current && !containerRef.current.contains(video)) {
@@ -50,7 +51,7 @@ const HomeVideoBg: React.FC = () => {
 				<ButtonImg
 					image={visual}
 					alt="Visual"
-					onClick={() => console.log("Visual clicked")}
+					onClick={() => navigation("/visual-art")}
 				/>
 			</div>
 		</div>

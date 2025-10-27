@@ -1,19 +1,21 @@
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { Analytics } from "@vercel/analytics/react";
+
+import { PortfolioProvider, usePortfolio } from "./context/PortfolioContext";
+import { PaintingProvider, usePaintings } from "./context/PaintingContext";
 import {
 	IllustrationProvider,
 	useIllustrations,
 } from "./context/IllustrationContext";
-import { SketchesProvider, useSketches } from "./context/SketcheContext";
-import { PaintingProvider, usePaintings } from "./context/PaintingContext";
-import { PortfolioProvider, usePortfolio } from "./context/portfolioContext";
+import { SketchesProvider, useSketches } from "./context/SketchContext";
 
 import HomeScreen from "./pages/home/HomeScreen";
-import IllustrationScreen from "./pages/illustration/IllustrationScreen";
 import TattooScreen from "./pages/tattoo/TattooScreen";
 import BookingScreen from "./pages/booking/BookingScreen";
 import PortfolioScreen from "./pages/portfolio/PortfolioScreen";
+import VisualArtScreen from "./pages/visualArt/VisualAtrScreen";
 import PaintingScreen from "./pages/painting/PaintingScreen";
+import IllustrationScreen from "./pages/illustration/IllustrationScreen";
 import SketchScreen from "./pages/sketch/SketchScreen";
 import AdminPage from "./pages/admin/AdminPage";
 
@@ -37,15 +39,15 @@ const AppRoutes: React.FC = () => {
 			<main className="main">
 				<Routes>
 					<Route path="/" element={<HomeScreen />} />
-					<Route path="/illustration" element={<IllustrationScreen />} />
 					<Route path="/tattoo" element={<TattooScreen />} />
 					<Route path="/booking" element={<BookingScreen />} />
 					<Route path="/portfolio" element={<PortfolioScreen />} />
+					<Route path="/visual-art" element={<VisualArtScreen />} />
 					<Route path="/painting" element={<PaintingScreen />} />
+					<Route path="/illustration" element={<IllustrationScreen />} />
 					<Route path="/sketch" element={<SketchScreen />} />
 
 					<Route path="/admin" element={<AdminPage />} />
-
 					{/* <Route path="*" element={<Navigate to="/404" replace />} />
 					<Route path="/404" element={<Error404 />} /> */}
 				</Routes>
@@ -57,16 +59,16 @@ const AppRoutes: React.FC = () => {
 function App() {
 	return (
 		<BrowserRouter>
-			<PaintingProvider>
-				<SketchesProvider>
+			<PortfolioProvider>
+				<PaintingProvider>
 					<IllustrationProvider>
-						<PortfolioProvider>
+						<SketchesProvider>
 							<Analytics />
 							<AppRoutes />
-						</PortfolioProvider>
+						</SketchesProvider>
 					</IllustrationProvider>
-				</SketchesProvider>
-			</PaintingProvider>
+				</PaintingProvider>
+			</PortfolioProvider>
 		</BrowserRouter>
 	);
 }

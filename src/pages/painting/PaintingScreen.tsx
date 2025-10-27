@@ -4,22 +4,27 @@ import Skeleton from "../../components/skeleton/Skeleton";
 import border from "../../assets/images/pageBorder.png";
 import "./paintingScreen.css";
 
+type Orientation = "horizontal" | "vertical";
+
 const PaintingScreen: React.FC = () => {
 	const { paintings, loading } = usePaintings();
-	const [loadedImages, setLoadedImages] = useState<Record<number, boolean>>({});
-	const [orientationMap, setOrientationMap] = useState<Record<number, string>>(
-		{}
-	);
+
+	const [imageData, setImageData] = useState<
+		Record<number, { loaded: boolean; orientation: Orientation }>
+	>({});
 
 	const handleImageLoad = (
 		id: number,
 		e: React.SyntheticEvent<HTMLImageElement>
 	) => {
 		const img = e.currentTarget;
-		const orientation =
+		const orientation: Orientation =
 			img.naturalWidth > img.naturalHeight ? "horizontal" : "vertical";
-		setOrientationMap((prev) => ({ ...prev, [id]: orientation }));
-		setLoadedImages((prev) => ({ ...prev, [id]: true }));
+
+		setImageData((prev) => ({
+			...prev,
+			[id]: { loaded: true, orientation },
+		}));
 	};
 
 	useEffect(() => {
@@ -32,47 +37,53 @@ const PaintingScreen: React.FC = () => {
 		return () => window.removeEventListener("resize", setVh);
 	}, []);
 
-	if (loading) {
-		return (
-			<div className="paintingContainer">
-				<Skeleton className="paintingSkeleton" />
-			</div>
-		);
-	}
-
 	return (
 		<div className="paintingContainer">
 			<img src={border} alt="border" className="paintingBorder left" />
 			<img src={border} alt="border" className="paintingBorder right" />
 
 			<div className="paintingColumn">
-				{paintings.map((painting, index) => (
-					<div
-						key={painting.id}
-						className={`paintingWrapper ${
-							orientationMap[painting.id] || ""
-						} variant-${index % 3}`}
-					>
-						{!loadedImages[painting.id] && (
-							<Skeleton className="paintingSkeleton" />
-						)}
+				{loading && (
+					<>
+						{Array.from({ length: 6 }).map((_, i) => (
+							<Skeleton key={i} className="paintingSkeleton placeholder" />
+						))}
+					</>
+				)}
 
-						<img
-							className={`paintingImage ${
-								loadedImages[painting.id] ? "visible" : "hidden"
-							} ${orientationMap[painting.id] || ""}`}
-							src={painting.image?.url}
-							alt={painting.image?.alternativeText || painting.name}
-							onLoad={(e) => handleImageLoad(painting.id, e)}
-						/>
+				{!loading &&
+					paintings.map((painting, index) => {
+						const data = imageData[painting.id];
+						const orientation = data?.orientation || "";
+						const isLoaded = data?.loaded;
 
-						<div className="paintingOverlay">
-							<p className="paintingInfoName">{painting.name}</p>
-							<p className="paintingInfoText">{painting.size}</p>
-							<p className="paintingInfoText">{painting.materials}</p>
-						</div>
-					</div>
-				))}
+						return (
+							<div
+								key={painting.id}
+								className={`paintingWrapper ${orientation} variant-${
+									index % 3
+								}`}
+							>
+								{!isLoaded && <Skeleton className="paintingSkeleton active" />}
+
+								<img
+									className={`paintingImage ${
+										isLoaded ? "visible" : "hidden"
+									} ${orientation}`}
+									src={painting.image?.url}
+									alt={painting.image?.alternativeText || painting.name}
+									onLoad={(e) => handleImageLoad(painting.id, e)}
+									loading="lazy"
+								/>
+
+								<div className="paintingOverlay">
+									<p className="paintingInfoName">{painting.name}</p>
+									<p className="paintingInfoText">{painting.size}</p>
+									<p className="paintingInfoText">{painting.materials}</p>
+								</div>
+							</div>
+						);
+					})}
 			</div>
 		</div>
 	);

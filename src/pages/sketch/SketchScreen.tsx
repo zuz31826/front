@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSketches } from "../../context/SketcheContext";
+import { useSketches } from "../../context/SketchContext";
 import Skeleton from "../../components/skeleton/Skeleton";
 // import border from "../../assets/images/pageBorder.png";
 import "./sketchScreen.css";
