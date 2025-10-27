@@ -58,16 +58,16 @@ const AppRoutes: React.FC = () => {
 function App() {
 	return (
 		<BrowserRouter>
-			<PaintingProvider>
-				<SketchesProvider>
+			<PortfolioProvider>
+				<PaintingProvider>
 					<IllustrationProvider>
-						<PortfolioProvider>
+						<SketchesProvider>
 							<Analytics />
 							<AppRoutes />
-						</PortfolioProvider>
+						</SketchesProvider>
 					</IllustrationProvider>
-				</SketchesProvider>
-			</PaintingProvider>
+				</PaintingProvider>
+			</PortfolioProvider>
 		</BrowserRouter>
 	);
 }
