@@ -1,5 +1,5 @@
 .introducingContainer {
-	margin-top: clamp(60px, 8vw, 100px);
+	margin-top: clamp(20px, 8vw, 40px);
 	display: flex;
 	align-items: center;
 	flex-direction: row;
@@ -8,11 +8,15 @@
 }
 
 .introducingTextContainer {
-	width: 800px;
+	min-width: 320px;
+	width: clamp(300px, 50vw, 783px);
+	display: block;
+	height: auto;
+	margin-left: clamp(16px, 4vw, 50px);
 }
 
 .introducingMainText {
-	font-size: clamp(48px, 5vw, 86px);
+	font-size: clamp(48px, 5vw, 82px);
 	text-align: center;
 	color: var(--color-black);
 	font-family: var(--font-heading);
@@ -26,39 +30,20 @@
 	margin-bottom: clamp(10px, 2vw, 41px);
 }
 
-.introducingSubTextContainer {
-	position: relative;
-	width: clamp(300px, 50vw, 783px);
-	height: auto;
-}
-
-.introducingSubTextBg {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	z-index: -1;
-}
-
-.introducingSubText {
-	font-size: clamp(24px, 2.5vw, 44px);
-	padding-top: clamp(34px, 4vw, 70px);
-	padding-left: clamp(30px, 4vw, 90px);
-	padding-right: 15px;
-	padding-bottom: clamp(20px, 4vw, 40px);
-	color: var(--color-white);
-	text-align: left;
+.introducingIllustration {
+	margin-left: clamp(20px, 3vw, 60px);
+	min-width: 320px;
+	width: clamp(320px, 39vw, 600px);
 }
 
 .introducingPhoto {
-	width: 100%;
 	margin-left: 20px;
+	margin-right: clamp(-76px, 4vw, -10px);
 	height: auto;
 	object-fit: cover;
-	max-width: 2000px;
+	max-width: 1200px;
 	min-width: 500px;
-	display: block;
+	width: clamp(500px, 80vw, 1500px);
 }
 
 @media (max-width: 768px) {
@@ -75,24 +60,20 @@
 	}
 
 	.introducingMainText {
-		font-size: clamp(36px, 3vw, 36px);
+		font-size: clamp(32px, 5vw, 36px);
 		text-align: start;
 	}
 
-	.introducingSubTextContainer {
-		width: 100%;
-		max-width: 380px;
+	.introducingIllustration {
 		margin-left: auto;
-		margin-right: 0;
-		margin-bottom: clamp(18px, 5vw, 30px);
-	}
-
-	.introducingSubText {
-		font-size: clamp(16px, 4vw, 20px);
+		margin-right: clamp(0px, 4vw, 60px);
+		width: clamp(260px, 70vw, 400px);
 	}
 
 	.introducingPhoto {
-		margin-left: clamp(0px, 8vw, 800px);
-		min-width: 300px;
+		margin-right: clamp(1px, 3vw, 60px);
+		margin-left: 0;
+		width: clamp(340px, 90vw, 650px);
+		min-width: 340px;
 	}
 }

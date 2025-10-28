@@ -9,14 +9,17 @@ const Inspiration = () => {
 			<div className="inspirationContentContainer">
 				<div className="inspirationTextContainer">
 					<p className="inspirationSubText">
-						I am inspired by the surreal — little sparks of absurdity hidden in
+						I am inspired by the surreal - <br />
+						little sparks of absurdity hidden in <br />
 						everyday life.
 					</p>
 					<p className="inspirationSubText">
-						I live to create and invent all that could be.
+						I live to create and invent all
+						<br /> that could be.
 					</p>
 					<p className="inspirationSubText">
-						Because once I make it it’s no longer absurd.
+						Because once I make it
+						<br /> it's no longer absurd.
 					</p>
 				</div>
 

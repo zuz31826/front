@@ -1,105 +1,126 @@
-.sketchContainer {
-	position: relative;
-	padding: 0 clamp(16px, 3vw, 40px);
+.bookContainer {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: flex-start;
-	min-height: calc(var(--vh, 1vh) * 100);
-	overflow-x: hidden;
-	/* here */
-	/* background-color: #a7a7a7; */
-}
-
-.sketchColumn {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: clamp(30px, 4vw, 60px);
-	margin-top: clamp(80px, 10vw, 140px);
-	margin-bottom: clamp(40px, 6vw, 100px);
-	z-index: 2;
-}
-
-.sketchWrapper {
+	height: 100vh;
+	overflow: hidden;
+	padding-top: 80px;
+	box-sizing: border-box;
 	position: relative;
+}
+
+.book {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 2vw;
+	flex: 1;
+}
+
+.book.desktop {
+	width: 90vw;
+	justify-content: space-between;
+}
+
+.book.mobile {
+	width: 90vw;
+	justify-content: center;
+}
+
+.page {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	width: 100%;
+	max-height: 90vh;
+	border-radius: 0;
 }
 
-.sketchWrapper.horizontal {
-	max-width: clamp(250px, 60vw, 900px);
+.book.desktop .page {
+	width: 40vw;
+	max-width: 800px;
+	height: auto;
 }
 
-.sketchWrapper.vertical {
-	max-width: clamp(200px, 50vw, 600px);
+.book.mobile .page {
+	width: 90vw;
+	height: auto;
 }
 
-.sketchWrapper.variant-0 {
-	transform: scale(0.98);
-}
-.sketchWrapper.variant-1 {
-	transform: scale(1.02);
-}
-.sketchWrapper.variant-2 {
-	transform: scale(1);
-}
-
-.sketchImage {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	border: 1px solid var(--color-black);
-	z-index: 2;
-	opacity: 0;
+.page img {
+	display: block;
 	transition: opacity 0.4s ease;
-	box-shadow: 0 2px 8px var(--color-shadow-black);
+	opacity: 0;
+	border: 1px solid var(--color-light-gray);
+	box-shadow: 0 8px 20px var(--color-shadow-black);
+}
+
+.page.horizontal img {
+	width: 100%;
+	height: auto;
+	object-fit: contain;
+}
+
+.page.vertical img {
+	width: auto;
+	height: 100%;
+	max-height: 80vh;
+	object-fit: contain;
 }
 
 .sketchImage.visible {
 	opacity: 1;
 }
 
-.sketchImage.hidden {
-	opacity: 0;
-}
-
-.sketchSkeleton {
-	width: 100%;
-	aspect-ratio: 4 / 3;
-}
-
-.sketchSkeleton.active {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-}
-
-.sketchSkeleton.placeholder {
-	width: clamp(200px, 50vw, 700px);
-	aspect-ratio: 4 / 3;
-}
-
-.sketchBorder {
+.pageIndicatorsWrapper {
 	position: fixed;
-	height: calc(var(--vh, 1vh) * 100);
-	width: auto;
-	object-fit: cover;
-	z-index: 1;
-	opacity: 0.9;
-	pointer-events: none;
-	padding-top: 70px;
+	bottom: 10px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 90vw;
+	max-width: 700px;
+	overflow: hidden;
 }
 
-.sketchBorder.left {
-	left: clamp(0px, 2vw, 60px);
+.pageIndicators {
+	display: flex;
+	gap: 10px;
+	justify-content: center;
+	align-items: center;
+	padding: 8px 0;
+	min-width: max-content;
 }
 
-.sketchBorder.right {
-	right: clamp(0px, 2vw, 60px);
-	transform: scaleX(-1);
+.dot {
+	width: clamp(6px, 1vw, 10px);
+	height: clamp(6px, 1vw, 10px);
+	border: none;
+	border-radius: 50%;
+	background: var(--color-white);
+	cursor: pointer;
+	flex-shrink: 0;
+	transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.dot.active {
+	background: #111;
+}
+
+.dot:hover {
+	transform: scale(1.1);
+}
+
+@media (max-width: 480px) {
+	.book.mobile .page {
+		width: 86vw;
+	}
+
+	.bookContainer {
+		padding-top: 60px;
+	}
+
+	.pageIndicatorsWrapper {
+		bottom: 8px;
+		width: 95vw;
+	}
 }

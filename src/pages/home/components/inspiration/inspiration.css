@@ -1,10 +1,10 @@
 .inspirationContainer {
-	margin-top: clamp(60px, 8vw, 100px);
+	margin-top: clamp(20px, 8vw, 40px);
 	overflow: hidden;
 }
 
 .inspirationMainText {
-	font-size: clamp(48px, 5vw, 86px);
+	font-size: clamp(48px, 5vw, 82px);
 	text-align: center;
 	color: var(--color-black);
 	font-family: var(--font-heading);
@@ -27,37 +27,37 @@
 }
 
 .inspirationSubText {
-	font-size: clamp(24px, 2.5vw, 44px);
+	font-size: clamp(24px, 2.5vw, 36px);
 	color: var(--color-black);
 }
 
 .inspirationSubText:nth-child(1) {
-	width: clamp(340px, 35vw, 590px);
+	width: clamp(340px, 53vw, 680px);
 	white-space: normal;
 	word-break: break-word;
 }
 
 .inspirationSubText:nth-child(2) {
-	max-width: clamp(290px, 33vw, 510px);
+	max-width: clamp(340px, 36vw, 540px);
 	margin-left: clamp(20px, 2vw, 180px);
 	white-space: normal;
 	word-break: break-word;
 }
 
 .inspirationSubText:nth-child(3) {
-	max-width: clamp(260px, 27vw, 480px);
+	max-width: clamp(260px, 28vw, 480px);
 	white-space: normal;
 	word-break: break-word;
 }
 
 .inspirationPhoto {
-	width: 100%;
-	margin-left: -20px;
+	margin-left: -200px;
+	margin-right: clamp(0px, 2vw, 100px);
+	margin-top: 40px;
 	height: auto;
 	object-fit: cover;
-	max-width: 2000px;
 	min-width: 500px;
-	display: block;
+	width: clamp(500px, 60vw, 1200px);
 }
 
 @media (max-width: 768px) {
@@ -67,13 +67,17 @@
 	}
 
 	.inspirationTextContainer {
-		margin-left: clamp(0px, 10vw, 40px);
+		margin-left: 0;
+		margin-right: clamp(0px, 8vw, 300px);
 		z-index: 1;
-		width: clamp(340px, 80vw, 550px);
+		width: clamp(340px, 80vw, 450px);
+		display: flex;
+		flex-direction: column;
+		gap: clamp(20px, 3vw, 40px);
 	}
 
 	.inspirationMainText {
-		font-size: clamp(36px, 3vw, 36px);
+		font-size: clamp(32px, 5vw, 36px);
 	}
 
 	.inspirationSubText {
@@ -83,15 +87,21 @@
 	.inspirationSubText:nth-child(1),
 	.inspirationSubText:nth-child(2),
 	.inspirationSubText:nth-child(3) {
+		text-align: start;
 		width: unset;
 		max-width: unset;
 		margin-left: 0;
 		background-color: transparent;
 	}
 
+	.inspirationSubText:nth-child(2) {
+		margin-left: auto;
+	}
+
 	.inspirationPhoto {
-		margin-top: clamp(16px, 5vw, 30px);
-		margin-right: clamp(0px, 8vw, 800px);
+		margin-top: clamp(6px, 2vw, 20px);
+		margin-left: clamp(0px, 8vw, 300px);
 		min-width: 300px;
+		width: clamp(350px, 80vw, 500px);
 	}
 }

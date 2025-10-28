@@ -7,12 +7,13 @@ const Collaboration: React.FC = () => {
 
 			<div className="collaborationContentContainer">
 				<p className="collaborationText">
-					I’m open to artistic collaborations — whether it be tattoos, character
-					design, graphic design, or illustration.
+					I’m open to artistic collaborations — <br />
+					whether it be tattoos, character design,
+					<br /> graphic design, or illustration.
 				</p>
 				<p className="collaborationText">
-					I work with mixed media — from oil paint, markers and crayons to
-					digital art.
+					I work with mixed media — from oil paint,
+					<br /> markers and crayons to digital art.
 				</p>
 			</div>
 		</div>

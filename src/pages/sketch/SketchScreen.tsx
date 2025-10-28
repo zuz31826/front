@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useSketches } from "../../context/SketchContext";
 import Skeleton from "../../components/skeleton/Skeleton";
-// import border from "../../assets/images/pageBorder.png";
 import "./sketchScreen.css";
 
 type Orientation = "horizontal" | "vertical";
@@ -12,6 +11,32 @@ const SketchScreen: React.FC = () => {
 	const [imageData, setImageData] = useState<
 		Record<number, { loaded: boolean; orientation: Orientation }>
 	>({});
+	const [pageIndex, setPageIndex] = useState(0);
+	const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
+	const [isThrottled, setIsThrottled] = useState(false);
+
+	const allImages = sketches?.[0]?.image ?? [];
+	const dotsRef = useRef<HTMLDivElement>(null);
+
+	const totalPages = useMemo(() => {
+		if (!allImages.length) return 0;
+		return Math.ceil(allImages.length / (isMobile ? 1 : 2));
+	}, [allImages.length, isMobile]);
+
+	useEffect(() => {
+		const onResize = () => {
+			const mobile = window.innerWidth < 768;
+			setIsMobile(mobile);
+			setPageIndex((p) =>
+				Math.min(
+					p,
+					Math.max(0, Math.ceil(allImages.length / (mobile ? 1 : 2)) - 1)
+				)
+			);
+		};
+		window.addEventListener("resize", onResize);
+		return () => window.removeEventListener("resize", onResize);
+	}, [allImages.length]);
 
 	const handleImageLoad = (
 		id: number,
@@ -28,42 +53,79 @@ const SketchScreen: React.FC = () => {
 	};
 
 	useEffect(() => {
-		const setVh = () => {
-			const vh = window.innerHeight * 0.01;
-			document.documentElement.style.setProperty("--vh", `${vh}px`);
+		if (loading || !allImages.length || totalPages === 0) return;
+
+		const handleWheel = (e: WheelEvent) => {
+			if (isThrottled) return;
+			const dy = e.deltaY;
+			if (Math.abs(dy) < 5) return;
+			setIsThrottled(true);
+			if (dy > 0) {
+				setPageIndex((p) => Math.min(p + 1, totalPages - 1));
+			} else {
+				setPageIndex((p) => Math.max(p - 1, 0));
+			}
+			const TO = window.setTimeout(() => setIsThrottled(false), 450);
+			return () => window.clearTimeout(TO);
 		};
-		setVh();
-		window.addEventListener("resize", setVh);
-		return () => window.removeEventListener("resize", setVh);
-	}, []);
+
+		window.addEventListener("wheel", handleWheel, { passive: true });
+		return () => window.removeEventListener("wheel", handleWheel);
+	}, [loading, allImages.length, totalPages, isThrottled]);
+
+	const visibleImages = useMemo(() => {
+		if (!allImages.length || totalPages === 0) return [];
+		if (isMobile) {
+			return [allImages[Math.min(pageIndex, allImages.length - 1)]].filter(
+				Boolean
+			);
+		}
+		const start = pageIndex * 2;
+		return allImages.slice(start, start + 2);
+	}, [allImages, pageIndex, isMobile, totalPages]);
+
+	useEffect(() => {
+		const dotsContainer = dotsRef.current;
+		if (!dotsContainer) return;
+
+		const activeDot = dotsContainer.children[pageIndex] as HTMLElement | null;
+		if (!activeDot) return;
+
+		const containerWidth = dotsContainer.clientWidth;
+		const scrollLeft =
+			activeDot.offsetLeft - containerWidth / 2 + activeDot.clientWidth / 2;
+
+		dotsContainer.scrollTo({
+			left: scrollLeft,
+			behavior: "smooth",
+		});
+	}, [pageIndex]);
 
 	return (
-		<div className="sketchContainer">
-			{/* <img src={border} alt="border" className="sketchBorder left" />
-			<img src={border} alt="border" className="sketchBorder right" /> */}
-
-			<div className="sketchColumn">
+		<div className="bookContainer">
+			<div className={`book ${isMobile ? "mobile" : "desktop"}`}>
 				{loading && (
 					<>
-						{Array.from({ length: 6 }).map((_, i) => (
-							<Skeleton key={i} className="sketchSkeleton placeholder" />
-						))}
+						<div className="page">
+							<Skeleton className="sketchSkeleton active" />
+						</div>
+						{!isMobile && (
+							<div className="page">
+								<Skeleton className="sketchSkeleton active" />
+							</div>
+						)}
 					</>
 				)}
 
 				{!loading &&
-					sketches[0]?.image?.map((sketch, index) => {
+					visibleImages.map((sketch) => {
 						const data = imageData[sketch.id];
 						const orientation = data?.orientation || "";
 						const isLoaded = data?.loaded;
 
 						return (
-							<div
-								key={sketch.id}
-								className={`sketchWrapper ${orientation} variant-${index % 3}`}
-							>
+							<div key={sketch.id} className={`page ${orientation}`}>
 								{!isLoaded && <Skeleton className="sketchSkeleton active" />}
-
 								<img
 									className={`sketchImage ${
 										isLoaded ? "visible" : "hidden"
@@ -77,6 +139,20 @@ const SketchScreen: React.FC = () => {
 						);
 					})}
 			</div>
+
+			{!loading && totalPages > 1 && (
+				<div className="pageIndicatorsWrapper">
+					<div className="pageIndicators" ref={dotsRef}>
+						{Array.from({ length: totalPages }).map((_, i) => (
+							<button
+								key={i}
+								className={`dot ${i === pageIndex ? "active" : ""}`}
+								onClick={() => setPageIndex(i)}
+							/>
+						))}
+					</div>
+				</div>
+			)}
 		</div>
 	);
 };
