@@ -53,6 +53,23 @@ const SketchScreen: React.FC = () => {
 	};
 
 	useEffect(() => {
+		if (!allImages.length) return;
+		allImages.forEach((sketch) => {
+			const img = new Image();
+			img.src = sketch.url;
+			img.onload = () =>
+				setImageData((prev) => ({
+					...prev,
+					[sketch.id]: {
+						loaded: true,
+						orientation:
+							img.naturalWidth > img.naturalHeight ? "horizontal" : "vertical",
+					},
+				}));
+		});
+	}, [allImages]);
+
+	useEffect(() => {
 		if (loading || !allImages.length || totalPages === 0) return;
 
 		const handleWheel = (e: WheelEvent) => {
@@ -120,6 +137,20 @@ const SketchScreen: React.FC = () => {
 		});
 	}, [pageIndex]);
 
+	useEffect(() => {
+		const wrapper = dotsRef.current?.parentElement;
+		const dots = dotsRef.current;
+		if (!wrapper || !dots) return;
+
+		const dotsWidth = dots.scrollWidth;
+		const wrapperWidth = wrapper.clientWidth;
+
+		wrapper.style.setProperty(
+			"--dots-justify",
+			dotsWidth <= wrapperWidth ? "center" : "flex-start"
+		);
+	}, [totalPages, isMobile]);
+
 	const visibleImages = useMemo(() => {
 		if (!allImages.length || totalPages === 0) return [];
 		if (isMobile) {
@@ -163,7 +194,6 @@ const SketchScreen: React.FC = () => {
 									src={sketch.url}
 									alt={sketch.alternativeText || `Sketch ${sketch.id}`}
 									onLoad={(e) => handleImageLoad(sketch.id, e)}
-									loading="lazy"
 								/>
 							</div>
 						);
