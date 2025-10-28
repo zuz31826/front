@@ -69,20 +69,39 @@ const SketchScreen: React.FC = () => {
 			return () => window.clearTimeout(TO);
 		};
 
-		window.addEventListener("wheel", handleWheel, { passive: true });
-		return () => window.removeEventListener("wheel", handleWheel);
-	}, [loading, allImages.length, totalPages, isThrottled]);
+		let touchStartY = 0;
+		let touchEndY = 0;
 
-	const visibleImages = useMemo(() => {
-		if (!allImages.length || totalPages === 0) return [];
-		if (isMobile) {
-			return [allImages[Math.min(pageIndex, allImages.length - 1)]].filter(
-				Boolean
-			);
-		}
-		const start = pageIndex * 2;
-		return allImages.slice(start, start + 2);
-	}, [allImages, pageIndex, isMobile, totalPages]);
+		const handleTouchStart = (e: TouchEvent) => {
+			touchStartY = e.touches[0].clientY;
+		};
+
+		const handleTouchEnd = (e: TouchEvent) => {
+			touchEndY = e.changedTouches[0].clientY;
+			const diff = touchStartY - touchEndY;
+
+			if (Math.abs(diff) < 50 || isThrottled) return;
+
+			setIsThrottled(true);
+			if (diff > 0) {
+				setPageIndex((p) => Math.min(p + 1, totalPages - 1));
+			} else {
+				setPageIndex((p) => Math.max(p - 1, 0));
+			}
+			const TO = window.setTimeout(() => setIsThrottled(false), 450);
+			return () => window.clearTimeout(TO);
+		};
+
+		window.addEventListener("wheel", handleWheel, { passive: true });
+		window.addEventListener("touchstart", handleTouchStart, { passive: true });
+		window.addEventListener("touchend", handleTouchEnd, { passive: true });
+
+		return () => {
+			window.removeEventListener("wheel", handleWheel);
+			window.removeEventListener("touchstart", handleTouchStart);
+			window.removeEventListener("touchend", handleTouchEnd);
+		};
+	}, [loading, allImages.length, totalPages, isThrottled]);
 
 	useEffect(() => {
 		const dotsContainer = dotsRef.current;
@@ -100,6 +119,17 @@ const SketchScreen: React.FC = () => {
 			behavior: "smooth",
 		});
 	}, [pageIndex]);
+
+	const visibleImages = useMemo(() => {
+		if (!allImages.length || totalPages === 0) return [];
+		if (isMobile) {
+			return [allImages[Math.min(pageIndex, allImages.length - 1)]].filter(
+				Boolean
+			);
+		}
+		const start = pageIndex * 2;
+		return allImages.slice(start, start + 2);
+	}, [allImages, pageIndex, isMobile, totalPages]);
 
 	return (
 		<div className="bookContainer">
