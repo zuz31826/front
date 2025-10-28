@@ -7,8 +7,6 @@
 	justify-content: flex-start;
 	min-height: calc(var(--vh, 1vh) * 100);
 	overflow-x: hidden;
-	/* here */
-	/* background-color: #a7a7a7; */
 }
 
 .sketchColumn {

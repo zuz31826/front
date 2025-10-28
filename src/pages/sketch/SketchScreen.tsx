@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSketches } from "../../context/SketchContext";
 import Skeleton from "../../components/skeleton/Skeleton";
-// import border from "../../assets/images/pageBorder.png";
 import "./sketchScreen.css";
 
 type Orientation = "horizontal" | "vertical";
@@ -27,21 +26,8 @@ const SketchScreen: React.FC = () => {
 		}));
 	};
 
-	useEffect(() => {
-		const setVh = () => {
-			const vh = window.innerHeight * 0.01;
-			document.documentElement.style.setProperty("--vh", `${vh}px`);
-		};
-		setVh();
-		window.addEventListener("resize", setVh);
-		return () => window.removeEventListener("resize", setVh);
-	}, []);
-
 	return (
 		<div className="sketchContainer">
-			{/* <img src={border} alt="border" className="sketchBorder left" />
-			<img src={border} alt="border" className="sketchBorder right" /> */}
-
 			<div className="sketchColumn">
 				{loading && (
 					<>
