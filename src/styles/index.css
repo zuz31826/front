@@ -8,7 +8,7 @@ html,
 body {
 	height: 100%;
 	overscroll-behavior-y: none;
-	background: var(--color-background, #f8f5f0);
+	background-color: var(--color-background);
 	font-family: var(--font-body, sans-serif);
 	font-weight: 300;
 	color: #000;
