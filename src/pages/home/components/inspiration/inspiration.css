@@ -52,6 +52,8 @@
 
 .inspirationPhoto {
 	margin-left: -200px;
+	margin-right: clamp(0px, 2vw, 100px);
+	margin-top: 40px;
 	height: auto;
 	object-fit: cover;
 	min-width: 500px;
