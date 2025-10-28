@@ -73,7 +73,7 @@ const SketchScreen: React.FC = () => {
 		if (loading || !allImages.length || totalPages === 0) return;
 
 		const handleWheel = (e: WheelEvent) => {
-			if (isThrottled) return;
+			if (isMobile || isThrottled) return;
 			const dy = e.deltaY;
 			if (Math.abs(dy) < 5) return;
 			setIsThrottled(true);
@@ -86,16 +86,16 @@ const SketchScreen: React.FC = () => {
 			return () => window.clearTimeout(TO);
 		};
 
-		let touchStartY = 0;
-		let touchEndY = 0;
+		let touchStartX = 0;
+		let touchEndX = 0;
 
 		const handleTouchStart = (e: TouchEvent) => {
-			touchStartY = e.touches[0].clientY;
+			touchStartX = e.touches[0].clientX;
 		};
 
 		const handleTouchEnd = (e: TouchEvent) => {
-			touchEndY = e.changedTouches[0].clientY;
-			const diff = touchStartY - touchEndY;
+			touchEndX = e.changedTouches[0].clientX;
+			const diff = touchStartX - touchEndX;
 
 			if (Math.abs(diff) < 50 || isThrottled) return;
 
@@ -118,7 +118,7 @@ const SketchScreen: React.FC = () => {
 			window.removeEventListener("touchstart", handleTouchStart);
 			window.removeEventListener("touchend", handleTouchEnd);
 		};
-	}, [loading, allImages.length, totalPages, isThrottled]);
+	}, [loading, allImages.length, totalPages, isThrottled, isMobile]);
 
 	useEffect(() => {
 		const dotsContainer = dotsRef.current;
