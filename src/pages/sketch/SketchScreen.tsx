@@ -13,10 +13,16 @@ const SketchScreen: React.FC = () => {
 	>({});
 	const [pageIndex, setPageIndex] = useState(0);
 	const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
-	const [isThrottled, setIsThrottled] = useState(false);
 
 	const allImages = sketches?.[0]?.image ?? [];
 	const dotsRef = useRef<HTMLDivElement>(null);
+
+	const throttledRef = useRef(false);
+	const timerRef = useRef<number | undefined>(undefined);
+	const tStartX = useRef(0);
+	const tStartY = useRef(0);
+	const tEndX = useRef(0);
+	const tEndY = useRef(0);
 
 	const totalPages = useMemo(() => {
 		if (!allImages.length) return 0;
@@ -53,72 +59,84 @@ const SketchScreen: React.FC = () => {
 	};
 
 	useEffect(() => {
-		if (!allImages.length) return;
-		allImages.forEach((sketch) => {
-			const img = new Image();
-			img.src = sketch.url;
-			img.onload = () =>
-				setImageData((prev) => ({
-					...prev,
-					[sketch.id]: {
-						loaded: true,
-						orientation:
-							img.naturalWidth > img.naturalHeight ? "horizontal" : "vertical",
-					},
-				}));
-		});
-	}, [allImages]);
-
-	useEffect(() => {
 		if (loading || !allImages.length || totalPages === 0) return;
 
 		const handleWheel = (e: WheelEvent) => {
-			if (isMobile || isThrottled) return;
+			if (isMobile) return;
+			if (throttledRef.current) return;
+
 			const dy = e.deltaY;
 			if (Math.abs(dy) < 5) return;
-			setIsThrottled(true);
-			if (dy > 0) {
-				setPageIndex((p) => Math.min(p + 1, totalPages - 1));
-			} else {
-				setPageIndex((p) => Math.max(p - 1, 0));
-			}
-			const TO = window.setTimeout(() => setIsThrottled(false), 450);
-			return () => window.clearTimeout(TO);
-		};
 
-		let touchStartX = 0;
-		let touchEndX = 0;
+			throttledRef.current = true;
 
-		const handleTouchStart = (e: TouchEvent) => {
-			touchStartX = e.touches[0].clientX;
-		};
+			if (dy > 0) setPageIndex((p) => Math.min(p + 1, totalPages - 1));
+			else setPageIndex((p) => Math.max(p - 1, 0));
 
-		const handleTouchEnd = (e: TouchEvent) => {
-			touchEndX = e.changedTouches[0].clientX;
-			const diff = touchStartX - touchEndX;
-
-			if (Math.abs(diff) < 50 || isThrottled) return;
-
-			setIsThrottled(true);
-			if (diff > 0) {
-				setPageIndex((p) => Math.min(p + 1, totalPages - 1));
-			} else {
-				setPageIndex((p) => Math.max(p - 1, 0));
-			}
-			const TO = window.setTimeout(() => setIsThrottled(false), 450);
-			return () => window.clearTimeout(TO);
+			if (timerRef.current) window.clearTimeout(timerRef.current);
+			timerRef.current = window.setTimeout(() => {
+				throttledRef.current = false;
+			}, 450);
 		};
 
 		window.addEventListener("wheel", handleWheel, { passive: true });
+		return () => {
+			window.removeEventListener("wheel", handleWheel);
+			if (timerRef.current) window.clearTimeout(timerRef.current);
+		};
+	}, [loading, allImages.length, totalPages, isMobile]);
+
+	useEffect(() => {
+		if (loading || !isMobile) return;
+
+		const handleTouchStart = (e: TouchEvent) => {
+			const t = e.touches[0];
+			tStartX.current = t.clientX;
+			tStartY.current = t.clientY;
+			tEndX.current = t.clientX;
+			tEndY.current = t.clientY;
+		};
+
+		const handleTouchMove = (e: TouchEvent) => {
+			const t = e.touches[0];
+			tEndX.current = t.clientX;
+			tEndY.current = t.clientY;
+		};
+
+		const handleTouchEnd = () => {
+			if (throttledRef.current) return;
+
+			const diffX = tStartX.current - tEndX.current;
+			const diffY = Math.abs(tStartY.current - tEndY.current);
+
+			if (diffY > 60) return;
+			if (Math.abs(diffX) < 70) return;
+
+			throttledRef.current = true;
+
+			if (diffX > 0) {
+				setPageIndex((p) => Math.min(p + 1, totalPages - 1));
+			} else {
+				setPageIndex((p) => Math.max(p - 1, 0));
+			}
+
+			if (timerRef.current) window.clearTimeout(timerRef.current);
+			timerRef.current = window.setTimeout(() => {
+				throttledRef.current = false;
+			}, 450);
+		};
+
 		window.addEventListener("touchstart", handleTouchStart, { passive: true });
+		window.addEventListener("touchmove", handleTouchMove, { passive: true });
 		window.addEventListener("touchend", handleTouchEnd, { passive: true });
 
 		return () => {
-			window.removeEventListener("wheel", handleWheel);
 			window.removeEventListener("touchstart", handleTouchStart);
+			window.removeEventListener("touchmove", handleTouchMove);
 			window.removeEventListener("touchend", handleTouchEnd);
+			if (timerRef.current) window.clearTimeout(timerRef.current);
 		};
-	}, [loading, allImages.length, totalPages, isThrottled, isMobile]);
+	}, [loading, isMobile, totalPages]);
 
 	useEffect(() => {
 		const dotsContainer = dotsRef.current;
@@ -131,10 +149,7 @@ const SketchScreen: React.FC = () => {
 		const scrollLeft =
 			activeDot.offsetLeft - containerWidth / 2 + activeDot.clientWidth / 2;
 
-		dotsContainer.scrollTo({
-			left: scrollLeft,
-			behavior: "smooth",
-		});
+		dotsContainer.scrollTo({ left: scrollLeft, behavior: "smooth" });
 	}, [pageIndex]);
 
 	useEffect(() => {
