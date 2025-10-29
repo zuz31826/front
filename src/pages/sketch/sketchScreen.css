@@ -33,8 +33,6 @@
 	width: 94vw;
 	justify-content: center;
 	margin-top: 60px;
-	/* margin-bottom: 100px; */
-	background-color: aqua;
 }
 
 .page {
@@ -58,23 +56,22 @@
 
 .page img {
 	display: block;
-	transition: opacity 0.2s ease;
 	opacity: 0;
+	transition: opacity 0.2s ease;
 	border: 1px solid var(--color-light-gray);
 	box-shadow: 0 8px 20px var(--color-shadow-black);
+	object-fit: contain;
 }
 
 .page.horizontal img {
 	width: 100%;
 	height: auto;
-	object-fit: contain;
 }
 
 .page.vertical img {
 	width: auto;
 	height: 100%;
 	max-height: 80vh;
-	object-fit: contain;
 }
 
 .sketchImage.visible {
@@ -86,19 +83,14 @@
 	bottom: 12px;
 	left: 50%;
 	transform: translateX(-50%);
-	width: 90vw;
-	max-width: 700px;
-	overflow: hidden;
+	width: 100%;
 }
 
-.pageIndicators {
+.pageIndicatorsInner {
 	display: flex;
 	gap: 8px;
 	align-items: center;
-	justify-content: var(--dots-justify, center);
-	padding: 6px 0;
-	min-width: max-content;
-	transition: transform 0.4s ease;
+	transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
 	will-change: transform;
 }
 
