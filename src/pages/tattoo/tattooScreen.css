@@ -1,5 +1,6 @@
 .tattooScreenContainer {
 	margin: clamp(70px, 11vw, 100px) 0;
+	padding-bottom: clamp(70px, 11vw, 100px);
 }
 
 .tattooScreenLink {

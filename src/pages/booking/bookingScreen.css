@@ -1,5 +1,6 @@
 .bookingContainer {
-	margin: clamp(60px, 11vw, 120px) auto;
+	margin: clamp(60px, 11vw, 120px) auto 0 auto;
+	padding-bottom: clamp(70px, 11vw, 100px);
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
