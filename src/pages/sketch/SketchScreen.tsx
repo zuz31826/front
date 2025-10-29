@@ -9,13 +9,11 @@ const SketchScreen: React.FC = () => {
 	const { sketches, loading } = useSketches();
 
 	const [imageData, setImageData] = useState<
-		Record<number, { loaded: boolean; orientation: Orientation }>
+		Record<string, { loaded: boolean; orientation: Orientation }>
 	>({});
 	const [pageIndex, setPageIndex] = useState(0);
 	const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
-
-	const allImages = sketches?.[0]?.image ?? [];
-	const dotsRef = useRef<HTMLDivElement>(null);
+	const [transformX, setTransformX] = useState(0);
 
 	const throttledRef = useRef(false);
 	const timerRef = useRef<number | undefined>(undefined);
@@ -23,6 +21,9 @@ const SketchScreen: React.FC = () => {
 	const tStartY = useRef(0);
 	const tEndX = useRef(0);
 	const tEndY = useRef(0);
+	const dotsRef = useRef<HTMLDivElement>(null);
+
+	const allImages = sketches?.[0]?.image ?? [];
 
 	const totalPages = useMemo(() => {
 		if (!allImages.length) return 0;
@@ -44,45 +45,30 @@ const SketchScreen: React.FC = () => {
 		return () => window.removeEventListener("resize", onResize);
 	}, [allImages.length]);
 
-	const handleImageLoad = (
-		id: number,
-		e: React.SyntheticEvent<HTMLImageElement>
-	) => {
-		const img = e.currentTarget;
-		const orientation: Orientation =
-			img.naturalWidth > img.naturalHeight ? "horizontal" : "vertical";
-
-		setImageData((prev) => ({
-			...prev,
-			[id]: { loaded: true, orientation },
-		}));
-	};
-
 	useEffect(() => {
 		if (loading || !allImages.length || totalPages === 0) return;
 
 		const handleWheel = (e: WheelEvent) => {
 			if (isMobile) return;
 			if (throttledRef.current) return;
-
 			const dy = e.deltaY;
 			if (Math.abs(dy) < 5) return;
 
 			throttledRef.current = true;
-
 			if (dy > 0) setPageIndex((p) => Math.min(p + 1, totalPages - 1));
 			else setPageIndex((p) => Math.max(p - 1, 0));
 
-			if (timerRef.current) window.clearTimeout(timerRef.current);
-			timerRef.current = window.setTimeout(() => {
-				throttledRef.current = false;
-			}, 450);
+			if (timerRef.current) clearTimeout(timerRef.current);
+			timerRef.current = window.setTimeout(
+				() => (throttledRef.current = false),
+				450
+			);
 		};
 
 		window.addEventListener("wheel", handleWheel, { passive: true });
 		return () => {
 			window.removeEventListener("wheel", handleWheel);
-			if (timerRef.current) window.clearTimeout(timerRef.current);
+			if (timerRef.current) clearTimeout(timerRef.current);
 		};
 	}, [loading, allImages.length, totalPages, isMobile]);
 
@@ -96,34 +82,26 @@ const SketchScreen: React.FC = () => {
 			tEndX.current = t.clientX;
 			tEndY.current = t.clientY;
 		};
-
 		const handleTouchMove = (e: TouchEvent) => {
 			const t = e.touches[0];
 			tEndX.current = t.clientX;
 			tEndY.current = t.clientY;
 		};
-
 		const handleTouchEnd = () => {
 			if (throttledRef.current) return;
-
 			const diffX = tStartX.current - tEndX.current;
 			const diffY = Math.abs(tStartY.current - tEndY.current);
-
-			if (diffY > 60) return;
-			if (Math.abs(diffX) < 70) return;
+			if (diffY > 60 || Math.abs(diffX) < 70) return;
 
 			throttledRef.current = true;
+			if (diffX > 0) setPageIndex((p) => Math.min(p + 1, totalPages - 1));
+			else setPageIndex((p) => Math.max(p - 1, 0));
 
-			if (diffX > 0) {
-				setPageIndex((p) => Math.min(p + 1, totalPages - 1));
-			} else {
-				setPageIndex((p) => Math.max(p - 1, 0));
-			}
-
-			if (timerRef.current) window.clearTimeout(timerRef.current);
-			timerRef.current = window.setTimeout(() => {
-				throttledRef.current = false;
-			}, 450);
+			if (timerRef.current) clearTimeout(timerRef.current);
+			timerRef.current = window.setTimeout(
+				() => (throttledRef.current = false),
+				450
+			);
 		};
 
 		window.addEventListener("touchstart", handleTouchStart, { passive: true });
@@ -134,45 +112,48 @@ const SketchScreen: React.FC = () => {
 			window.removeEventListener("touchstart", handleTouchStart);
 			window.removeEventListener("touchmove", handleTouchMove);
 			window.removeEventListener("touchend", handleTouchEnd);
-			if (timerRef.current) window.clearTimeout(timerRef.current);
+			if (timerRef.current) clearTimeout(timerRef.current);
 		};
 	}, [loading, isMobile, totalPages]);
 
 	useEffect(() => {
-		const dotsContainer = dotsRef.current;
-		if (!dotsContainer) return;
-
-		const activeDot = dotsContainer.children[pageIndex] as HTMLElement | null;
-		if (!activeDot) return;
-
-		const containerWidth = dotsContainer.clientWidth;
-		const scrollLeft =
-			activeDot.offsetLeft - containerWidth / 2 + activeDot.clientWidth / 2;
-
-		dotsContainer.scrollTo({ left: scrollLeft, behavior: "smooth" });
-	}, [pageIndex]);
-
-	useEffect(() => {
-		const wrapper = dotsRef.current?.parentElement;
 		const dots = dotsRef.current;
-		if (!wrapper || !dots) return;
+		const wrapper = dots?.parentElement;
+		if (!dots || !wrapper) return;
 
-		const dotsWidth = dots.scrollWidth;
 		const wrapperWidth = wrapper.clientWidth;
 
-		wrapper.style.setProperty(
-			"--dots-justify",
-			dotsWidth <= wrapperWidth ? "center" : "flex-start"
-		);
-	}, [totalPages, isMobile]);
+		if (!dots.dataset.padded) {
+			dots.style.paddingLeft = `${wrapperWidth / 2}px`;
+			dots.style.paddingRight = `${wrapperWidth / 2}px`;
+			dots.dataset.padded = "true";
+		}
+
+		const center = () => {
+			const active = dots.children[pageIndex] as HTMLElement | null;
+			if (!active) return;
+
+			const activeCenter = active.offsetLeft + active.clientWidth / 2;
+			const totalWidth = dots.scrollWidth;
+
+			let newX = wrapperWidth / 2 - activeCenter;
+
+			const maxX = wrapperWidth / 2;
+			const minX = wrapperWidth - totalWidth - wrapperWidth / 2;
+
+			if (newX > maxX) newX = maxX;
+			if (newX < minX) newX = minX;
+
+			setTransformX(newX);
+		};
+
+		const id = requestAnimationFrame(center);
+		return () => cancelAnimationFrame(id);
+	}, [pageIndex, totalPages, isMobile]);
 
 	const visibleImages = useMemo(() => {
 		if (!allImages.length || totalPages === 0) return [];
-		if (isMobile) {
-			return [allImages[Math.min(pageIndex, allImages.length - 1)]].filter(
-				Boolean
-			);
-		}
+		if (isMobile) return [allImages[Math.min(pageIndex, allImages.length - 1)]];
 		const start = pageIndex * 2;
 		return allImages.slice(start, start + 2);
 	}, [allImages, pageIndex, isMobile, totalPages]);
@@ -180,19 +161,6 @@ const SketchScreen: React.FC = () => {
 	return (
 		<div className="bookContainer">
 			<div className={`book ${isMobile ? "mobile" : "desktop"}`}>
-				{loading && (
-					<>
-						<div className="page">
-							<Skeleton className="sketchSkeleton active" />
-						</div>
-						{!isMobile && (
-							<div className="page">
-								<Skeleton className="sketchSkeleton active" />
-							</div>
-						)}
-					</>
-				)}
-
 				{!loading &&
 					visibleImages.map((sketch) => {
 						const data = imageData[sketch.id];
@@ -208,7 +176,17 @@ const SketchScreen: React.FC = () => {
 									} ${orientation}`}
 									src={sketch.url}
 									alt={sketch.alternativeText || `Sketch ${sketch.id}`}
-									onLoad={(e) => handleImageLoad(sketch.id, e)}
+									onLoad={(e) => {
+										const img = e.currentTarget;
+										const orientation: Orientation =
+											img.naturalWidth > img.naturalHeight
+												? "horizontal"
+												: "vertical";
+										setImageData((prev) => ({
+											...prev,
+											[sketch.id]: { loaded: true, orientation },
+										}));
+									}}
 								/>
 							</div>
 						);
@@ -217,7 +195,11 @@ const SketchScreen: React.FC = () => {
 
 			{!loading && totalPages > 1 && (
 				<div className="pageIndicatorsWrapper">
-					<div className="pageIndicators" ref={dotsRef}>
+					<div
+						className="pageIndicatorsInner"
+						ref={dotsRef}
+						style={{ transform: `translateX(${transformX}px)` }}
+					>
 						{Array.from({ length: totalPages }).map((_, i) => (
 							<button
 								key={i}
