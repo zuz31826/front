@@ -36,7 +36,7 @@ const VisualArtVideoBg: React.FC = () => {
 
 	return (
 		<div className="tattooVideoBgContainer" ref={containerRef}>
-			<div className="tattooVideoBgOverlay" />
+			{/* <div className="tattooVideoBgOverlay" /> */}
 		</div>
 	);
 };

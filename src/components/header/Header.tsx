@@ -113,7 +113,7 @@ const Header: React.FC = () => {
 					</li>
 
 					<li>Collaboration</li>
-					<li>About me</li>
+					<li onClick={() => navigationHandler("/about")}>About me</li>
 					<li>Contact</li>
 				</ul>
 			</aside>

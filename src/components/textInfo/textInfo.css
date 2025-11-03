@@ -1,0 +1,10 @@
+.textInfo {
+	font-size: clamp(24px, 2.5vw, 36px);
+	color: var(--color-black);
+}
+
+@media (max-width: 768px) {
+	.textInfo {
+		font-size: clamp(16px, 4vw, 20px);
+	}
+}

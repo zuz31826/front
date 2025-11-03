@@ -1,0 +1,12 @@
+.aboutMeTextContainer {
+	max-width: 1000px;
+	width: 100%;
+}
+
+.aboutMeText {
+	font-size: clamp(16px, 2.5vw, 22px);
+}
+
+.mb {
+	margin-bottom: clamp(30px, 4vw, 40px);
+}

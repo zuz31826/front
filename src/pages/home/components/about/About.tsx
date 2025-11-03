@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom";
+import TextInfo from "../../../../components/textInfo/TextInfo";
 import ButtonImg from "../../../../components/buttonImg/ButtonImg";
 import illustration from "../../../../assets/images/illustration.png";
 import painting from "../../../../assets/images/painting.png";
 import tattoo from "../../../../assets/images/tattoo.png";
-import about from "../../../../assets/images/about.png";
+import about from "../../../../assets/images/aboutButt.png";
 import "./about.css";
 
 const About: React.FC = () => {
@@ -29,14 +30,15 @@ const About: React.FC = () => {
 				/>
 			</div>
 
-			<p className="aboutText">
-				Click here to find out more about my background
-			</p>
+			<TextInfo
+				text={"Click here to find out more about my background"}
+				className="aboutText"
+			/>
 
 			<ButtonImg
 				image={about}
 				alt="About"
-				onClick={() => console.log("about clicked")}
+				onClick={() => navigation("/about")}
 				big
 			/>
 		</div>
