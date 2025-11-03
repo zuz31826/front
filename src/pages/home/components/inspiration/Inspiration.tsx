@@ -1,23 +1,31 @@
+import TextTitle from "../../../../components/textTitle/TextTitle";
+import TextInfo from "../../../../components/textInfo/TextInfo";
 import dragon from "../../../../assets/images/dragon.png";
 import "./inspiration.css";
 
 const Inspiration = () => {
 	return (
 		<div className="inspirationContainer">
-			<p className="inspirationMainText">What is my inspiration?</p>
+			<TextTitle
+				text="What is my inspiration?"
+				className="inspirationMainText"
+			/>
 
 			<div className="inspirationContentContainer">
 				<div className="inspirationTextContainer">
-					<p className="inspirationSubText">
-						I am inspired by the surreal - little sparks of absurdity hidden in
-						everyday life.
-					</p>
-					<p className="inspirationSubText">
-						I live to create and invent all that could be.
-					</p>
-					<p className="inspirationSubText">
-						Because once I make it it's no longer absurd.
-					</p>
+					<TextInfo
+						text="I am inspired by the surreal - little sparks of absurdity hidden in
+						everyday life."
+						className="inspirationSubText"
+					/>
+					<TextInfo
+						text="I live to create and invent all that could be."
+						className="inspirationSubText"
+					/>
+					<TextInfo
+						text="Because once I make it it's no longer absurd."
+						className="inspirationSubText"
+					/>
 				</div>
 
 				<img src={dragon} alt="Dragon" className="inspirationPhoto" />

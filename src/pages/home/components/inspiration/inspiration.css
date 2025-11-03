@@ -4,10 +4,7 @@
 }
 
 .inspirationMainText {
-	font-size: clamp(48px, 5vw, 82px);
 	text-align: center;
-	color: var(--color-black);
-	font-family: var(--font-heading);
 	max-width: clamp(300px, 40vw, 600px);
 	width: 100%;
 	margin-left: auto;
@@ -26,14 +23,11 @@
 	gap: clamp(14px, 2vw, 35px);
 	display: flex;
 	flex-direction: column;
-	/* margin-left: clamp(14px, 2vw, 70px); */
 	margin-right: clamp(14px, 2vw, 70px);
 	z-index: 1;
 }
 
 .inspirationSubText {
-	font-size: clamp(24px, 2.5vw, 36px);
-	color: var(--color-black);
 	text-align: center;
 	align-self: center;
 }
@@ -53,7 +47,6 @@
 
 .inspirationSubText:nth-child(3) {
 	max-width: clamp(260px, 28vw, 430px);
-	/* align-self: flex-end; */
 	white-space: normal;
 	word-break: break-word;
 }
@@ -61,8 +54,6 @@
 .inspirationPhoto {
 	margin-right: -200px;
 	margin-left: -20px;
-	/* margin-left: -200px; */
-	/* margin-right: clamp(0px, 2vw, 100px); */
 	margin-top: 40px;
 	height: auto;
 	object-fit: cover;
@@ -87,15 +78,11 @@
 	}
 
 	.inspirationMainText {
-		font-size: clamp(32px, 5vw, 36px);
 		margin-left: auto;
 		margin-right: 4px;
 		width: 60%;
 	}
 
-	.inspirationSubText {
-		font-size: clamp(16px, 4vw, 20px);
-	}
 	.inspirationSubText:nth-child(1),
 	.inspirationSubText:nth-child(2),
 	.inspirationSubText:nth-child(3) {
