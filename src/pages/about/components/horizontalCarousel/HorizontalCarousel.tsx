@@ -19,6 +19,7 @@ const HorizontalCarousel: React.FC<HorizontalCarouselProps> = ({ images }) => {
 	const [pageIndex, setPageIndex] = useState(0);
 	const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
 	const [transformX, setTransformX] = useState(0);
+	const [hovered, setHovered] = useState(false);
 
 	const throttledRef = useRef(false);
 	const timerRef = useRef<number | undefined>(undefined);
@@ -31,83 +32,45 @@ const HorizontalCarousel: React.FC<HorizontalCarouselProps> = ({ images }) => {
 	}, [images.length, isMobile]);
 
 	useEffect(() => {
-		const container = containerRef.current;
-		if (!container) return;
+		if (isMobile) return;
 
 		const preventScroll = (e: WheelEvent) => {
-			e.preventDefault();
+			if (hovered) {
+				e.preventDefault();
+				e.stopPropagation();
+			}
 		};
 
-		container.addEventListener("mouseenter", () => {
-			window.addEventListener("wheel", preventScroll, { passive: false });
-		});
-
-		container.addEventListener("mouseleave", () => {
-			window.removeEventListener("wheel", preventScroll);
-		});
-
-		const preventTouchMove = (e: TouchEvent) => e.preventDefault();
-
-		container.addEventListener("touchstart", () => {
-			document.body.style.overflow = "hidden";
-			window.addEventListener("touchmove", preventTouchMove, {
-				passive: false,
-			});
-		});
-
-		container.addEventListener("touchend", () => {
-			document.body.style.overflow = "";
-			window.removeEventListener("touchmove", preventTouchMove);
-		});
-
-		return () => {
-			window.removeEventListener("wheel", preventScroll);
-			window.removeEventListener("touchmove", preventTouchMove);
-			document.body.style.overflow = "";
-		};
-	}, []);
-
-	useEffect(() => {
-		const onResize = () => {
-			const mobile = window.innerWidth < 768;
-			setIsMobile(mobile);
-			setPageIndex((p) =>
-				Math.min(
-					p,
-					Math.max(0, Math.ceil(images.length / (mobile ? 1 : 2)) - 1)
-				)
-			);
-		};
-		window.addEventListener("resize", onResize);
-		return () => window.removeEventListener("resize", onResize);
-	}, [images.length]);
+		window.addEventListener("wheel", preventScroll, { passive: false });
+		return () => window.removeEventListener("wheel", preventScroll);
+	}, [hovered, isMobile]);
 
 	useEffect(() => {
 		const container = containerRef.current;
 		if (!container || isMobile) return;
 
 		const handleWheel = (e: WheelEvent) => {
-			if (throttledRef.current) return;
+			if (!hovered) return;
 			if (Math.abs(e.deltaY) < 5) return;
-			e.preventDefault();
 
+			e.preventDefault();
+			e.stopPropagation();
+
+			if (throttledRef.current) return;
 			throttledRef.current = true;
+
 			if (e.deltaY > 0) setPageIndex((p) => Math.min(p + 1, totalPages - 1));
 			else setPageIndex((p) => Math.max(p - 1, 0));
 
-			if (timerRef.current) clearTimeout(timerRef.current);
-			timerRef.current = window.setTimeout(
-				() => (throttledRef.current = false),
-				450
-			);
+			clearTimeout(timerRef.current);
+			timerRef.current = window.setTimeout(() => {
+				throttledRef.current = false;
+			}, 400);
 		};
 
 		container.addEventListener("wheel", handleWheel, { passive: false });
-		return () => {
-			container.removeEventListener("wheel", handleWheel);
-			if (timerRef.current) clearTimeout(timerRef.current);
-		};
-	}, [isMobile, totalPages]);
+		return () => container.removeEventListener("wheel", handleWheel);
+	}, [hovered, isMobile, totalPages]);
 
 	useEffect(() => {
 		if (!isMobile) return;
@@ -133,34 +96,37 @@ const HorizontalCarousel: React.FC<HorizontalCarouselProps> = ({ images }) => {
 			tEndY = t.clientY;
 		};
 
-		const handleTouchEnd = () => {
-			if (throttledRef.current) return;
+		const handleTouchEnd = (e: TouchEvent) => {
 			const diffX = tStartX - tEndX;
 			const diffY = Math.abs(tStartY - tEndY);
-			if (diffY > 60 || Math.abs(diffX) < 70) return;
+
+			if (diffY > Math.abs(diffX)) return;
+
+			e.preventDefault();
+			if (Math.abs(diffX) < 50) return;
+			if (throttledRef.current) return;
 
 			throttledRef.current = true;
+
 			if (diffX > 0) setPageIndex((p) => Math.min(p + 1, totalPages - 1));
 			else setPageIndex((p) => Math.max(p - 1, 0));
 
-			if (timerRef.current) clearTimeout(timerRef.current);
-			timerRef.current = window.setTimeout(
-				() => (throttledRef.current = false),
-				450
-			);
+			clearTimeout(timerRef.current);
+			timerRef.current = window.setTimeout(() => {
+				throttledRef.current = false;
+			}, 450);
 		};
 
 		container.addEventListener("touchstart", handleTouchStart, {
 			passive: true,
 		});
 		container.addEventListener("touchmove", handleTouchMove, { passive: true });
-		container.addEventListener("touchend", handleTouchEnd, { passive: true });
+		container.addEventListener("touchend", handleTouchEnd, { passive: false });
 
 		return () => {
 			container.removeEventListener("touchstart", handleTouchStart);
 			container.removeEventListener("touchmove", handleTouchMove);
 			container.removeEventListener("touchend", handleTouchEnd);
-			if (timerRef.current) clearTimeout(timerRef.current);
 		};
 	}, [isMobile, totalPages]);
 
@@ -177,26 +143,20 @@ const HorizontalCarousel: React.FC<HorizontalCarouselProps> = ({ images }) => {
 			dots.dataset.padded = "true";
 		}
 
-		const center = () => {
-			const active = dots.children[pageIndex] as HTMLElement | null;
-			if (!active) return;
+		const active = dots.children[pageIndex] as HTMLElement | null;
+		if (!active) return;
 
-			const activeCenter = active.offsetLeft + active.clientWidth / 2;
-			const totalWidth = dots.scrollWidth;
+		const activeCenter = active.offsetLeft + active.clientWidth / 2;
+		const totalWidth = dots.scrollWidth;
+		let newX = wrapperWidth / 2 - activeCenter;
 
-			let newX = wrapperWidth / 2 - activeCenter;
+		const maxX = wrapperWidth / 2;
+		const minX = wrapperWidth - totalWidth - wrapperWidth / 2;
 
-			const maxX = wrapperWidth / 2;
-			const minX = wrapperWidth - totalWidth - wrapperWidth / 2;
+		if (newX > maxX) newX = maxX;
+		if (newX < minX) newX = minX;
 
-			if (newX > maxX) newX = maxX;
-			if (newX < minX) newX = minX;
-
-			setTransformX(newX);
-		};
-
-		const id = requestAnimationFrame(center);
-		return () => cancelAnimationFrame(id);
+		setTransformX(newX);
 	}, [pageIndex, totalPages, isMobile]);
 
 	const visibleImages = useMemo(() => {
@@ -210,7 +170,12 @@ const HorizontalCarousel: React.FC<HorizontalCarouselProps> = ({ images }) => {
 	}, [images, pageIndex, isMobile, totalPages]);
 
 	return (
-		<div className="horizontalCarouselContainer" ref={containerRef}>
+		<div
+			className="horizontalCarouselContainer"
+			ref={containerRef}
+			onMouseEnter={() => setHovered(true)}
+			onMouseLeave={() => setHovered(false)}
+		>
 			<div className={`horizontalCarousel ${isMobile ? "mobile" : "desktop"}`}>
 				{visibleImages.map((img) =>
 					img.id === -1 ? (
@@ -223,7 +188,6 @@ const HorizontalCarousel: React.FC<HorizontalCarouselProps> = ({ images }) => {
 							{!imageData[img.id]?.loaded && (
 								<Skeleton className="horizontalCarouselSkeleton" />
 							)}
-
 							<img
 								className={`horizontalCarouselImage ${
 									imageData[img.id]?.loaded ? "visible" : "hidden"
