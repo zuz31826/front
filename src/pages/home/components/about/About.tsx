@@ -3,7 +3,7 @@ import ButtonImg from "../../../../components/buttonImg/ButtonImg";
 import illustration from "../../../../assets/images/illustration.png";
 import painting from "../../../../assets/images/painting.png";
 import tattoo from "../../../../assets/images/tattoo.png";
-import about from "../../../../assets/images/about.png";
+import about from "../../../../assets/images/aboutButt.png";
 import "./about.css";
 
 const About: React.FC = () => {
@@ -36,7 +36,7 @@ const About: React.FC = () => {
 			<ButtonImg
 				image={about}
 				alt="About"
-				onClick={() => console.log("about clicked")}
+				onClick={() => navigation("/about")}
 				big
 			/>
 		</div>

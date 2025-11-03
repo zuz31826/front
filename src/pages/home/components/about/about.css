@@ -1,5 +1,5 @@
 .aboutContainer {
-	padding-bottom: clamp(70px, 11vw, 100px);
+	padding: 0 20px clamp(70px, 11vw, 100px);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -15,7 +15,6 @@
 	gap: 20px;
 	margin: 0 auto;
 	margin-bottom: clamp(40px, 16vw, 200px);
-	padding: 0 20px;
 }
 
 .aboutText {
