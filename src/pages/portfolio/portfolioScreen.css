@@ -9,6 +9,14 @@
 	box-sizing: border-box;
 }
 
+.skeletonContainer {
+	width: 100%;
+	align-items: center;
+	display: flex;
+	justify-content: center;
+	height: 70vh;
+}
+
 .portfolioItem {
 	width: 100%;
 	overflow: hidden;
