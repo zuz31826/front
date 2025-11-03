@@ -6,7 +6,6 @@
 	width: 100%;
 	max-width: 1200px;
 	margin: 0 auto;
-	touch-action: none;
 	transition: opacity 0.3s ease;
 }
 
