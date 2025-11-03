@@ -17,11 +17,9 @@ const HorizontalCarousel: React.FC<HorizontalCarouselProps> = ({ images }) => {
 		Record<number, { loaded: boolean; orientation: Orientation }>
 	>({});
 	const [pageIndex, setPageIndex] = useState(0);
-
-	const [isMobile, setIsMobile] = useState(() =>
+	const [isMobile, setIsMobile] = useState(
 		typeof window !== "undefined" ? window.innerWidth < 768 : false
 	);
-
 	const [transformX, setTransformX] = useState(0);
 	const [hovered, setHovered] = useState(false);
 
@@ -42,38 +40,46 @@ const HorizontalCarousel: React.FC<HorizontalCarouselProps> = ({ images }) => {
 		return Math.ceil(images.length / (isMobile ? 1 : 2));
 	}, [images.length, isMobile]);
 
-	// 💻 Prevent page scroll when hovering carousel
-	useEffect(() => {
-		if (isMobile) return;
+	// 🔒 Utility to lock/unlock body scroll
+	const lockBodyScroll = () => {
+		document.body.style.overflow = "hidden";
+	};
+	const unlockBodyScroll = () => {
+		document.body.style.overflow = "";
+	};
 
-		const preventScroll = (e: WheelEvent) => {
-			if (hovered) {
-				e.preventDefault();
-				e.stopPropagation();
-			}
-		};
-
-		window.addEventListener("wheel", preventScroll, { passive: false });
-		return () => window.removeEventListener("wheel", preventScroll);
-	}, [hovered, isMobile]);
-
-	// 💻 Desktop scroll handling (wheel)
+	// 💻 Desktop: wheel control
 	useEffect(() => {
 		const container = containerRef.current;
 		if (!container || isMobile) return;
 
 		const handleWheel = (e: WheelEvent) => {
 			if (!hovered) return;
-			if (Math.abs(e.deltaY) < 5) return;
 
-			e.preventDefault();
-			e.stopPropagation();
+			const delta = e.deltaY;
+			if (Math.abs(delta) < 5) return;
+
+			const atFirst = pageIndex === 0;
+			const atLast = pageIndex === totalPages - 1;
+
+			// Если в середине — блокируем страницу
+			if ((delta > 0 && !atLast) || (delta < 0 && !atFirst)) {
+				e.preventDefault();
+				e.stopPropagation();
+				lockBodyScroll();
+			} else {
+				// Если дошли до края — отпускаем страницу
+				unlockBodyScroll();
+				return;
+			}
 
 			if (throttledRef.current) return;
 			throttledRef.current = true;
 
-			if (e.deltaY > 0) setPageIndex((p) => Math.min(p + 1, totalPages - 1));
-			else setPageIndex((p) => Math.max(p - 1, 0));
+			setPageIndex((prev) => {
+				if (delta > 0) return Math.min(prev + 1, totalPages - 1);
+				return Math.max(prev - 1, 0);
+			});
 
 			clearTimeout(timerRef.current);
 			timerRef.current = window.setTimeout(() => {
@@ -82,49 +88,66 @@ const HorizontalCarousel: React.FC<HorizontalCarouselProps> = ({ images }) => {
 		};
 
 		container.addEventListener("wheel", handleWheel, { passive: false });
-		return () => container.removeEventListener("wheel", handleWheel);
-	}, [hovered, isMobile, totalPages]);
+		return () => {
+			container.removeEventListener("wheel", handleWheel);
+			unlockBodyScroll();
+		};
+	}, [hovered, isMobile, totalPages, pageIndex]);
 
-	// 📱 Mobile swipe handling
+	// 📱 Mobile swipe (вертикальный скролл не блокируем)
 	useEffect(() => {
-		if (!isMobile) return;
-		const container = containerRef.current;
-		if (!container) return;
+		const el = containerRef.current;
+		if (!el || !isMobile) return;
 
-		let tStartX = 0;
-		let tStartY = 0;
-		let tEndX = 0;
-		let tEndY = 0;
+		let activePointerId: number | undefined;
+		let startX = 0;
+		let startY = 0;
+		let isDragging = false;
+		let isHorizontal = false;
+		let directionLocked: "x" | "y" | null = null;
+		const RESET_LOCK_AFTER = 8;
 
-		const handleTouchStart = (e: TouchEvent) => {
-			const t = e.touches[0];
-			tStartX = t.clientX;
-			tStartY = t.clientY;
-			tEndX = t.clientX;
-			tEndY = t.clientY;
+		const onPointerDown = (e: PointerEvent) => {
+			if (e.pointerType !== "touch") return;
+			activePointerId = e.pointerId;
+			startX = e.clientX;
+			startY = e.clientY;
+			isDragging = true;
+			isHorizontal = false;
+			directionLocked = null;
 		};
 
-		const handleTouchMove = (e: TouchEvent) => {
-			const t = e.touches[0];
-			tEndX = t.clientX;
-			tEndY = t.clientY;
+		const onPointerMove = (e: PointerEvent) => {
+			if (!isDragging || e.pointerId !== activePointerId) return;
+			const dx = e.clientX - startX;
+			const dy = e.clientY - startY;
+
+			if (!directionLocked) {
+				if (
+					Math.abs(dx) >= RESET_LOCK_AFTER ||
+					Math.abs(dy) >= RESET_LOCK_AFTER
+				) {
+					directionLocked = Math.abs(dx) > Math.abs(dy) ? "x" : "y";
+					isHorizontal = directionLocked === "x";
+				}
+			}
 		};
 
-		const handleTouchEnd = (e: TouchEvent) => {
-			const diffX = tStartX - tEndX;
-			const diffY = Math.abs(tStartY - tEndY);
+		const onPointerUp = (e: PointerEvent) => {
+			if (!isDragging || e.pointerId !== activePointerId) return;
+			const dx = e.clientX - startX;
+			const adx = Math.abs(dx);
 
-			// если свайп вертикальный — даём странице скроллиться
-			if (diffY > Math.abs(diffX)) return;
+			isDragging = false;
+			directionLocked = null;
+			activePointerId = undefined;
 
-			// горизонтальный свайп → листаем
-			e.preventDefault();
-			if (Math.abs(diffX) < 50) return;
+			if (!isHorizontal) return;
+			if (adx < 50) return;
 			if (throttledRef.current) return;
 
 			throttledRef.current = true;
-
-			if (diffX > 0) setPageIndex((p) => Math.min(p + 1, totalPages - 1));
+			if (dx < 0) setPageIndex((p) => Math.min(p + 1, totalPages - 1));
 			else setPageIndex((p) => Math.max(p - 1, 0));
 
 			clearTimeout(timerRef.current);
@@ -133,20 +156,28 @@ const HorizontalCarousel: React.FC<HorizontalCarouselProps> = ({ images }) => {
 			}, 450);
 		};
 
-		container.addEventListener("touchstart", handleTouchStart, {
-			passive: true,
-		});
-		container.addEventListener("touchmove", handleTouchMove, { passive: true });
-		container.addEventListener("touchend", handleTouchEnd, { passive: false });
+		const onPointerCancel = () => {
+			isDragging = false;
+			directionLocked = null;
+			activePointerId = undefined;
+		};
+
+		el.addEventListener("pointerdown", onPointerDown, { passive: true });
+		el.addEventListener("pointermove", onPointerMove, { passive: true });
+		el.addEventListener("pointerup", onPointerUp, { passive: true });
+		el.addEventListener("pointercancel", onPointerCancel, { passive: true });
+		el.addEventListener("pointerleave", onPointerCancel, { passive: true });
 
 		return () => {
-			container.removeEventListener("touchstart", handleTouchStart);
-			container.removeEventListener("touchmove", handleTouchMove);
-			container.removeEventListener("touchend", handleTouchEnd);
+			el.removeEventListener("pointerdown", onPointerDown);
+			el.removeEventListener("pointermove", onPointerMove);
+			el.removeEventListener("pointerup", onPointerUp);
+			el.removeEventListener("pointercancel", onPointerCancel);
+			el.removeEventListener("pointerleave", onPointerCancel);
 		};
 	}, [isMobile, totalPages]);
 
-	// 🔹 Center dots logic
+	// 🔹 Dots positioning
 	useEffect(() => {
 		const dots = dotsRef.current;
 		const wrapper = dots?.parentElement;
@@ -176,7 +207,6 @@ const HorizontalCarousel: React.FC<HorizontalCarouselProps> = ({ images }) => {
 		setTransformX(newX);
 	}, [pageIndex, totalPages, isMobile]);
 
-	// visible images
 	const visibleImages = useMemo(() => {
 		if (!images.length || totalPages === 0) return [];
 		if (isMobile) return [images[Math.min(pageIndex, images.length - 1)]];
@@ -192,7 +222,14 @@ const HorizontalCarousel: React.FC<HorizontalCarouselProps> = ({ images }) => {
 			className="horizontalCarouselContainer"
 			ref={containerRef}
 			onMouseEnter={() => setHovered(true)}
-			onMouseLeave={() => setHovered(false)}
+			onMouseLeave={() => {
+				setHovered(false);
+				// возвращаем скролл, если ушли с карусели
+				document.body.style.overflow = "";
+			}}
+			style={
+				isMobile ? ({ touchAction: "pan-y" } as React.CSSProperties) : undefined
+			}
 		>
 			<div className={`horizontalCarousel ${isMobile ? "mobile" : "desktop"}`}>
 				{visibleImages.map((img) =>
