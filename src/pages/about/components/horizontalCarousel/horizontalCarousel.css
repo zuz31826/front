@@ -1,0 +1,122 @@
+.horizontalCarouselContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	max-width: 1000px;
+	width: 100%;
+	margin: 20px 0 50px;
+	touch-action: pan-x;
+	overscroll-behavior: contain;
+	overflow: hidden;
+}
+
+.horizontalCarousel {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 2vw;
+	width: 100%;
+	min-height: 70vh;
+	padding: 0 20px;
+}
+
+.horizontalCarousel.desktop {
+	justify-content: space-between;
+}
+
+.horizontalCarousel.mobile {
+	width: 94%;
+	min-height: 60vh;
+}
+
+.horizontalCarouselPage {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	width: 42%;
+	max-height: 85vh;
+	height: 100%;
+	flex-shrink: 0;
+}
+
+.horizontalCarousel.mobile .horizontalCarouselPage {
+	width: 100%;
+}
+
+.horizontalCarouselPage.placeholder {
+	flex: 1;
+	visibility: hidden;
+}
+
+.horizontalCarouselImage {
+	display: block;
+	opacity: 0;
+	transition: opacity 0.45s ease;
+	border: 1px solid var(--color-light-gray);
+	box-shadow: 0 8px 20px var(--color-shadow-black);
+	object-fit: contain;
+	max-height: 85vh;
+	max-width: 100%;
+	height: auto;
+	width: auto;
+}
+
+.horizontalCarouselImage.visible {
+	opacity: 1;
+}
+
+.horizontalCarouselSkeleton {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 100%;
+	height: 100%;
+}
+
+.horizontalCarouselPageIndicatorsContainer {
+	width: 100%;
+	margin-top: 16px;
+	margin-bottom: 10px;
+}
+
+.horizontalCarouselPageIndicatorsInner {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+	will-change: transform;
+}
+
+.horizontalCarouselDot {
+	width: clamp(6px, 1vw, 10px);
+	height: clamp(6px, 1vw, 10px);
+	border: none;
+	border-radius: 50%;
+	background: var(--color-white);
+	cursor: pointer;
+	flex-shrink: 0;
+	transform: scale(1);
+	transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+}
+
+.horizontalCarouselDot.active {
+	background: #111;
+	transform: scale(1.3);
+	box-shadow: 0 0 4px var(--color-half-transparent-black);
+}
+
+.horizontalCarouselDot.hover {
+	transform: scale(1.15);
+}
+
+@media (max-width: 768px) {
+	.horizontalCarouselContainer {
+		margin: 0 0 30px;
+	}
+
+	.horizontalCarousel {
+		padding: 0 10px;
+	}
+}

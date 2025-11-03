@@ -83,6 +83,20 @@ export interface Portfolio {
 	updatedAt: string;
 }
 
+export interface AboutMe {
+	autoportrets: StrapiImage[];
+	costumes: StrapiImage[];
+	jestem: StrapiImage[];
+	mirror: StrapiImage[];
+	noTitle: StrapiImage[];
+	exhibition: StrapiImage[];
+	id: number;
+	createdAt: string;
+	documentId: string;
+	publishedAt: string;
+	updatedAt: string;
+}
+
 export type BookingInfo = {
 	name: string;
 	instagram: string;

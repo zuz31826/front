@@ -64,7 +64,9 @@ const PaintingScreen: React.FC = () => {
 									index % 3
 								}`}
 							>
-								{!isLoaded && <Skeleton className="paintingSkeleton active" />}
+								{!isLoaded && (
+									<Skeleton className="paintingSkeleton placeholder active" />
+								)}
 
 								<img
 									className={`paintingImage ${
