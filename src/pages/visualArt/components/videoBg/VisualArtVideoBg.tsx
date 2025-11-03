@@ -1,8 +1,14 @@
 import { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import ButtonImg from "../../../../components/buttonImg/ButtonImg";
+import painting from "../../../../assets/images/painting.png";
+import illustration from "../../../../assets/images/illustration.png";
+import sketchbook from "../../../../assets/images/sketchbook.png";
 import "./visualArtVideoBg.css";
 
 const VisualArtVideoBg: React.FC = () => {
 	const containerRef = useRef<HTMLDivElement | null>(null);
+	const navigation = useNavigate();
 
 	useEffect(() => {
 		let video: HTMLVideoElement;
@@ -37,6 +43,23 @@ const VisualArtVideoBg: React.FC = () => {
 	return (
 		<div className="tattooVideoBgContainer" ref={containerRef}>
 			{/* <div className="tattooVideoBgOverlay" /> */}
+			<div className="tattooVideoBgButtonsContainer">
+				<ButtonImg
+					image={painting}
+					alt="Painting"
+					onClick={() => navigation("/painting")}
+				/>
+				<ButtonImg
+					image={illustration}
+					alt="Illustration"
+					onClick={() => navigation("/illustration")}
+				/>
+				<ButtonImg
+					image={sketchbook}
+					alt="Tattoo"
+					onClick={() => navigation("/sketch")}
+				/>
+			</div>
 		</div>
 	);
 };

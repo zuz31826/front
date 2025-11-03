@@ -1,6 +1,8 @@
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "../../../../components/button/Button";
+import ButtonImg from "../../../../components/buttonImg/ButtonImg";
+import booking from "../../../../assets/images/booking.png";
+import portfolio from "../../../../assets/images/portfolio.png";
 import "./tattooVideoBg.css";
 
 const TattooVideoBg: React.FC = () => {
@@ -44,8 +46,12 @@ const TattooVideoBg: React.FC = () => {
 		<div className="tattooVideoBgContainer" ref={containerRef}>
 			<div className="tattooVideoBgOverlay" />
 			<div className="tattooVideoBgButtonsContainer">
-				<Button text="Book a tattoo" onClick={handleBookTattoo} />
-				<Button text="Portfolio" onClick={handlePortfolio} />
+				<ButtonImg image={booking} alt="Booking" onClick={handleBookTattoo} />
+				<ButtonImg
+					image={portfolio}
+					alt="Portfolio"
+					onClick={handlePortfolio}
+				/>
 			</div>
 		</div>
 	);

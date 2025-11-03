@@ -38,12 +38,11 @@
 
 .tattooVideoBgButtonsContainer {
 	position: absolute;
-	top: 80%;
+	top: 55%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	gap: clamp(20px, 2vw, 40px);
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	z-index: 2;
