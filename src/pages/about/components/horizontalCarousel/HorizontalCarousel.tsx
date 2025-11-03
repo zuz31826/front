@@ -17,7 +17,11 @@ const HorizontalCarousel: React.FC<HorizontalCarouselProps> = ({ images }) => {
 		Record<number, { loaded: boolean; orientation: Orientation }>
 	>({});
 	const [pageIndex, setPageIndex] = useState(0);
-	const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
+
+	const [isMobile, setIsMobile] = useState(() =>
+		typeof window !== "undefined" ? window.innerWidth < 768 : false
+	);
+
 	const [transformX, setTransformX] = useState(0);
 	const [hovered, setHovered] = useState(false);
 
@@ -26,11 +30,19 @@ const HorizontalCarousel: React.FC<HorizontalCarouselProps> = ({ images }) => {
 	const dotsRef = useRef<HTMLDivElement>(null);
 	const containerRef = useRef<HTMLDivElement>(null);
 
+	useEffect(() => {
+		if (typeof window === "undefined") return;
+		const onResize = () => setIsMobile(window.innerWidth < 768);
+		window.addEventListener("resize", onResize);
+		return () => window.removeEventListener("resize", onResize);
+	}, []);
+
 	const totalPages = useMemo(() => {
 		if (!images.length) return 0;
 		return Math.ceil(images.length / (isMobile ? 1 : 2));
 	}, [images.length, isMobile]);
 
+	// 💻 Prevent page scroll when hovering carousel
 	useEffect(() => {
 		if (isMobile) return;
 
@@ -45,6 +57,7 @@ const HorizontalCarousel: React.FC<HorizontalCarouselProps> = ({ images }) => {
 		return () => window.removeEventListener("wheel", preventScroll);
 	}, [hovered, isMobile]);
 
+	// 💻 Desktop scroll handling (wheel)
 	useEffect(() => {
 		const container = containerRef.current;
 		if (!container || isMobile) return;
@@ -72,6 +85,7 @@ const HorizontalCarousel: React.FC<HorizontalCarouselProps> = ({ images }) => {
 		return () => container.removeEventListener("wheel", handleWheel);
 	}, [hovered, isMobile, totalPages]);
 
+	// 📱 Mobile swipe handling
 	useEffect(() => {
 		if (!isMobile) return;
 		const container = containerRef.current;
@@ -100,8 +114,10 @@ const HorizontalCarousel: React.FC<HorizontalCarouselProps> = ({ images }) => {
 			const diffX = tStartX - tEndX;
 			const diffY = Math.abs(tStartY - tEndY);
 
+			// если свайп вертикальный — даём странице скроллиться
 			if (diffY > Math.abs(diffX)) return;
 
+			// горизонтальный свайп → листаем
 			e.preventDefault();
 			if (Math.abs(diffX) < 50) return;
 			if (throttledRef.current) return;
@@ -130,6 +146,7 @@ const HorizontalCarousel: React.FC<HorizontalCarouselProps> = ({ images }) => {
 		};
 	}, [isMobile, totalPages]);
 
+	// 🔹 Center dots logic
 	useEffect(() => {
 		const dots = dotsRef.current;
 		const wrapper = dots?.parentElement;
@@ -159,6 +176,7 @@ const HorizontalCarousel: React.FC<HorizontalCarouselProps> = ({ images }) => {
 		setTransformX(newX);
 	}, [pageIndex, totalPages, isMobile]);
 
+	// visible images
 	const visibleImages = useMemo(() => {
 		if (!images.length || totalPages === 0) return [];
 		if (isMobile) return [images[Math.min(pageIndex, images.length - 1)]];
