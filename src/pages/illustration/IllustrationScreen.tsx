@@ -65,7 +65,7 @@ const IllustrationScreen: React.FC = () => {
 								}`}
 							>
 								{!isLoaded && (
-									<Skeleton className="illustrationSkeleton active" />
+									<Skeleton className="illustrationSkeleton placeholder active" />
 								)}
 
 								<img
