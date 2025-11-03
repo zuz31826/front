@@ -3,4 +3,71 @@
 	flex-direction: column;
 	align-items: center;
 	padding: 80px 16px clamp(70px, 11vw, 100px);
+	width: 100%;
+	max-width: 1200px;
+	margin: 0 auto;
+	touch-action: none;
+	transition: opacity 0.3s ease;
+}
+
+.aboutMeContainer.loading {
+	opacity: 0.7;
+	pointer-events: none;
+}
+
+.aboutMeSkeletonHeader,
+.aboutMeSkeletonParagraph,
+.aboutMeSkeletonCarousel {
+	width: 100%;
+	max-width: 1000px;
+	border-radius: 8px;
+	margin-bottom: 20px;
+}
+
+.aboutMeSkeletonHeader {
+	height: 40px;
+}
+
+.aboutMeSkeletonParagraph {
+	height: 20px;
+}
+
+.aboutMeSkeletonCarousel {
+	height: 400px;
+}
+
+.aboutMeContainer.error {
+	color: var(--color-red);
+	text-align: center;
+	font-size: 18px;
+	line-height: 1.5;
+	padding: 120px 16px;
+}
+
+.aboutMeContainer.error p {
+	max-width: 600px;
+	margin: 0 auto;
+}
+
+.aboutMeContainer.empty {
+	color: var(--color-black);
+	text-align: center;
+	font-size: 18px;
+	line-height: 1.6;
+	padding: 120px 16px;
+}
+
+.aboutMeContainer.empty p {
+	max-width: 600px;
+	margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+	.aboutMeContainer {
+		padding: 60px 12px 80px;
+	}
+
+	.aboutMeSkeletonCarousel {
+		height: 260px;
+	}
 }

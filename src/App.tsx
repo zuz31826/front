@@ -8,6 +8,7 @@ import {
 	useIllustrations,
 } from "./context/IllustrationContext";
 import { SketchesProvider, useSketches } from "./context/SketchContext";
+import { AboutMeProvider, useAboutMe } from "./context/AboutMeContext";
 
 import HomeScreen from "./pages/home/HomeScreen";
 import TattooScreen from "./pages/tattoo/TattooScreen";
@@ -29,6 +30,7 @@ const AppRoutes: React.FC = () => {
 	usePaintings();
 	usePortfolio();
 	useSketches();
+	useAboutMe();
 
 	const location = useLocation();
 	const hideHeader = location.pathname !== "/admin";
@@ -65,8 +67,10 @@ function App() {
 				<PaintingProvider>
 					<IllustrationProvider>
 						<SketchesProvider>
-							<Analytics />
-							<AppRoutes />
+							<AboutMeProvider>
+								<Analytics />
+								<AppRoutes />
+							</AboutMeProvider>
 						</SketchesProvider>
 					</IllustrationProvider>
 				</PaintingProvider>
