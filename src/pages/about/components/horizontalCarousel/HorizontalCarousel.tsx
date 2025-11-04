@@ -40,7 +40,7 @@ const HorizontalCarousel: React.FC<HorizontalCarouselProps> = ({ images }) => {
 		return Math.ceil(images.length / (isMobile ? 1 : 2));
 	}, [images.length, isMobile]);
 
-	// 🔒 Utility to lock/unlock body scroll
+	// Utility to lock/unlock body scroll
 	const lockBodyScroll = () => {
 		document.body.style.overflow = "hidden";
 	};
@@ -48,7 +48,7 @@ const HorizontalCarousel: React.FC<HorizontalCarouselProps> = ({ images }) => {
 		document.body.style.overflow = "";
 	};
 
-	// 💻 Desktop: wheel control
+	// Desktop wheel control
 	useEffect(() => {
 		const container = containerRef.current;
 		if (!container || isMobile) return;
@@ -62,13 +62,13 @@ const HorizontalCarousel: React.FC<HorizontalCarouselProps> = ({ images }) => {
 			const atFirst = pageIndex === 0;
 			const atLast = pageIndex === totalPages - 1;
 
-			// Если в середине — блокируем страницу
+			// If scrolling within carousel range, lock body scroll
 			if ((delta > 0 && !atLast) || (delta < 0 && !atFirst)) {
 				e.preventDefault();
 				e.stopPropagation();
 				lockBodyScroll();
 			} else {
-				// Если дошли до края — отпускаем страницу
+				// If at the edges, unlock body scroll
 				unlockBodyScroll();
 				return;
 			}
@@ -94,7 +94,7 @@ const HorizontalCarousel: React.FC<HorizontalCarouselProps> = ({ images }) => {
 		};
 	}, [hovered, isMobile, totalPages, pageIndex]);
 
-	// 📱 Mobile swipe (вертикальный скролл не блокируем)
+	// Mobile swipe control
 	useEffect(() => {
 		const el = containerRef.current;
 		if (!el || !isMobile) return;
@@ -177,7 +177,7 @@ const HorizontalCarousel: React.FC<HorizontalCarouselProps> = ({ images }) => {
 		};
 	}, [isMobile, totalPages]);
 
-	// 🔹 Dots positioning
+	// Dots positioning
 	useEffect(() => {
 		const dots = dotsRef.current;
 		const wrapper = dots?.parentElement;
@@ -224,7 +224,7 @@ const HorizontalCarousel: React.FC<HorizontalCarouselProps> = ({ images }) => {
 			onMouseEnter={() => setHovered(true)}
 			onMouseLeave={() => {
 				setHovered(false);
-				// возвращаем скролл, если ушли с карусели
+				// return scroll control to body
 				document.body.style.overflow = "";
 			}}
 			style={
@@ -240,9 +240,11 @@ const HorizontalCarousel: React.FC<HorizontalCarouselProps> = ({ images }) => {
 						/>
 					) : (
 						<div key={img.id} className="horizontalCarouselPage">
-							{!imageData[img.id]?.loaded && (
-								<Skeleton className="horizontalCarouselSkeleton" />
-							)}
+							<Skeleton
+								className={`horizontalCarouselSkeleton ${
+									imageData[img.id]?.loaded ? "hidden" : ""
+								}`}
+							/>
 							<img
 								className={`horizontalCarouselImage ${
 									imageData[img.id]?.loaded ? "visible" : "hidden"
