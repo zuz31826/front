@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import Input from "../../../../components/input/Input";
-import RadioInput from "../../../../components/radioInput/RadioInput";
+import BookingInput from "../bookingInput/BookingInput";
+import BookingRadioInput from "../bookingRadioInput/BookingRadioInput";
 import type { BookingInfo } from "../../../../types";
 import "./bookingForm.css";
 
@@ -84,19 +84,19 @@ const BookingForm = () => {
 
 			<p className="bookingFormSubtitle">Personal information:</p>
 			<div className="bookingFormInputsContainer">
-				<Input
+				<BookingInput
 					text="Name / pronouns:"
 					value={bookingInfo.name}
 					onChange={(value) => changeHandler("name", value)}
 					error={touched.name && !bookingInfo.name}
 				/>
-				<Input
+				<BookingInput
 					text="Instagram"
 					value={bookingInfo.instagram}
 					onChange={(value) => changeHandler("instagram", value)}
 					error={touched.instagram && !bookingInfo.instagram}
 				/>
-				<Input
+				<BookingInput
 					text="E-mail:"
 					value={bookingInfo.email}
 					onChange={(value) => changeHandler("email", value)}
@@ -106,20 +106,20 @@ const BookingForm = () => {
 
 			<p className="bookingFormSubtitle">About tattoo:</p>
 			<div className="bookingFormInputsContainer">
-				<Input
+				<BookingInput
 					text="Size & placement:"
 					value={bookingInfo.size}
 					onChange={(value) => changeHandler("size", value)}
 					error={touched.size && !bookingInfo.size}
 				/>
-				<Input
+				<BookingInput
 					text="About your vision:"
 					multiple
 					value={bookingInfo.vision}
 					onChange={(value) => changeHandler("vision", value)}
 					error={touched.vision && !bookingInfo.vision}
 				/>
-				<Input
+				<BookingInput
 					text="Date of appointment:"
 					value={bookingInfo.date}
 					onChange={(value) => changeHandler("date", value)}
@@ -129,7 +129,7 @@ const BookingForm = () => {
 					(check my instagram for available date)
 				</p>
 
-				<RadioInput
+				<BookingRadioInput
 					text="Appointment in:"
 					options={["Poznan", "Berlin"]}
 					selectedOption={bookingInfo.place}

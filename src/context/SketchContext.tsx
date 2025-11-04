@@ -5,10 +5,8 @@ import {
 	useState,
 	type ReactNode,
 } from "react";
-import axios from "axios";
+import { fetchSketchesApi } from "../api";
 import type { Sketches } from "../types";
-
-const apiUrl = import.meta.env.VITE_APP_STRAPI_URL;
 
 interface SketchesContextType {
 	sketches: Sketches[];
@@ -24,22 +22,17 @@ export function SketchesProvider({ children }: { children: ReactNode }) {
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		const cached = sessionStorage.getItem("sketches");
-		if (cached) {
-			setSketches(JSON.parse(cached));
-			setLoading(false);
-			return;
-		}
-
-		axios
-			.get(`${apiUrl}/api/sketchbooks?populate=*`)
-			.then((res) => {
-				const data = res.data.data;
+		const load = async () => {
+			try {
+				const data = await fetchSketchesApi();
 				setSketches(data);
-				sessionStorage.setItem("sketches", JSON.stringify(data));
+			} catch (err) {
+				console.error(err);
+			} finally {
 				setLoading(false);
-			})
-			.catch(() => setLoading(false));
+			}
+		};
+		load();
 	}, []);
 
 	return (

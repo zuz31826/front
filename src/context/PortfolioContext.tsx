@@ -5,10 +5,8 @@ import {
 	useState,
 	type ReactNode,
 } from "react";
-import axios from "axios";
+import { fetchPortfolioApi } from "../api";
 import type { Portfolio } from "../types";
-
-const apiUrl = import.meta.env.VITE_APP_STRAPI_URL;
 
 interface PortfolioContextType {
 	portfolio: Portfolio[];
@@ -24,22 +22,17 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		const cached = sessionStorage.getItem("portfolio");
-		if (cached) {
-			setPortfolio(JSON.parse(cached));
-			setLoading(false);
-			return;
-		}
-
-		axios
-			.get(`${apiUrl}/api/portfolios?populate=*`)
-			.then((res) => {
-				const data = res.data.data;
+		const load = async () => {
+			try {
+				const data = await fetchPortfolioApi();
 				setPortfolio(data);
-				sessionStorage.setItem("portfolio", JSON.stringify(data));
+			} catch (err) {
+				console.error(err);
+			} finally {
 				setLoading(false);
-			})
-			.catch(() => setLoading(false));
+			}
+		};
+		load();
 	}, []);
 
 	return (

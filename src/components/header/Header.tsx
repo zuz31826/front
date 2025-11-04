@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import burger from "../../assets/images/burger.png";
+import burger from "../../assets/images/burgerButt.png";
 import name from "../../assets/images/name.png";
 import "./header.css";
 

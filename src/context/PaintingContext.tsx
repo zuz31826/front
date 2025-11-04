@@ -5,10 +5,8 @@ import {
 	useState,
 	type ReactNode,
 } from "react";
-import axios from "axios";
+import { fetchPaintingsApi } from "../api";
 import type { Painting } from "../types";
-
-const apiUrl = import.meta.env.VITE_APP_STRAPI_URL;
 
 interface PaintingContextType {
 	paintings: Painting[];
@@ -24,22 +22,17 @@ export function PaintingProvider({ children }: { children: ReactNode }) {
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		const cached = sessionStorage.getItem("paintings");
-		if (cached) {
-			setPaintings(JSON.parse(cached));
-			setLoading(false);
-			return;
-		}
-
-		axios
-			.get(`${apiUrl}/api/paintings?populate=*`)
-			.then((res) => {
-				const data = res.data.data;
+		const load = async () => {
+			try {
+				const data = await fetchPaintingsApi();
 				setPaintings(data);
-				sessionStorage.setItem("paintings", JSON.stringify(data));
+			} catch (err) {
+				console.error(err);
+			} finally {
 				setLoading(false);
-			})
-			.catch(() => setLoading(false));
+			}
+		};
+		load();
 	}, []);
 
 	return (

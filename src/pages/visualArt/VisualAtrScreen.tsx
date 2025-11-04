@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
-import VisualArtHeaderText from "./components/headerText/VisualArtHeaderText";
-import VisualArtVideoBg from "./components/videoBg/VisualArtVideoBg";
+import VisualArtHeaderText from "./components/visualArtHeaderText/VisualArtHeaderText";
+import VisualArtVideoBg from "./components/visualArtVideoBg/VisualArtVideoBg";
 import TextInfo from "../../components/textInfo/TextInfo";
 import "./visualArtScreen.css";
 
 const VisualArtScreen = () => {
 	return (
-		<div className="visualArtScreenContainer">
+		<div className="visualArtContainer">
 			<VisualArtHeaderText />
 			<VisualArtVideoBg />
 			<Link
@@ -14,7 +14,7 @@ const VisualArtScreen = () => {
 				target="_blank"
 				rel="noopener noreferrer"
 			>
-				<TextInfo text="@wruszkatutuasz" className="visualArtScreenLink" />
+				<TextInfo text="@wruszkatutuasz" className="visualArtLink" />
 			</Link>
 		</div>
 	);

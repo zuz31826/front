@@ -1,3 +1,5 @@
+export type Orientation = "horizontal" | "vertical";
+
 interface StrapiImageFormat {
 	ext: string;
 	url: string;
@@ -40,7 +42,6 @@ export interface StrapiImage {
 export interface Illustration {
 	image: StrapiImage[];
 	description?: string;
-
 	id: number;
 	createdAt: string;
 	documentId: string;
@@ -54,7 +55,6 @@ export interface Painting {
 	materials: string;
 	image: StrapiImage;
 	description?: string;
-
 	id: number;
 	createdAt: string;
 	documentId: string;
@@ -65,7 +65,6 @@ export interface Painting {
 export interface Sketches {
 	image: StrapiImage[];
 	description?: string;
-
 	id: number;
 	createdAt: string;
 	documentId: string;

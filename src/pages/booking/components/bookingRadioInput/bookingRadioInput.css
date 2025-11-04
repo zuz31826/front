@@ -1,0 +1,65 @@
+.bookingRadioInputContainer {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 8px;
+}
+
+.bookingRadioInputLabel {
+	color: var(--color-black);
+	font-size: clamp(16px, 3vw, 18px);
+	display: block;
+	max-width: clamp(120px, 30%, 160px);
+	width: 100%;
+}
+
+.bookingRadioInputOptionsContainer {
+	display: flex;
+	flex-direction: row;
+	gap: 24px;
+	align-items: center;
+}
+
+.bookingRadioInputOptionsContainer label {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 8px;
+	cursor: pointer;
+	color: var(--color-black);
+}
+
+.bookingRadioInputRadio {
+	width: 16px;
+	height: 16px;
+	border: 2px solid var(--color-half-transparent-black);
+	cursor: pointer;
+	appearance: none;
+
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	background: none;
+	border: 2px solid var(--color-half-transparent-black);
+	width: 16px;
+	height: 16px;
+	cursor: pointer;
+	display: inline-block;
+	border-radius: 0;
+	box-sizing: border-box;
+	transition: border 0.3s ease;
+}
+
+.bookingRadioInputRadio:checked {
+	border: 6px solid var(--color-black);
+}
+
+.bookingRadioInputRadio:focus,
+.bookingRadioInputRadio:active {
+	outline: none;
+	-webkit-tap-highlight-color: transparent;
+}
+
+.bookingRadioInputError .bookingRadioInputRadio {
+	border: 2px solid var(--color-red) !important;
+}

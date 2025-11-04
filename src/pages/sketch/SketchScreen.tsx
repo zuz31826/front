@@ -1,9 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useSketches } from "../../context/SketchContext";
 import Skeleton from "../../components/skeleton/Skeleton";
+import type { Orientation } from "../../types";
 import "./sketchScreen.css";
-
-type Orientation = "horizontal" | "vertical";
 
 const SketchScreen: React.FC = () => {
 	const { sketches, loading } = useSketches();
@@ -159,8 +158,8 @@ const SketchScreen: React.FC = () => {
 	}, [allImages, pageIndex, isMobile, totalPages]);
 
 	return (
-		<div className="bookContainer">
-			<div className={`book ${isMobile ? "mobile" : "desktop"}`}>
+		<div className="sketchContainer">
+			<div className={`sketchInner ${isMobile ? "mobile" : "desktop"}`}>
 				{!loading &&
 					visibleImages.map((sketch) => {
 						const data = imageData[sketch.id];
@@ -168,8 +167,8 @@ const SketchScreen: React.FC = () => {
 						const isLoaded = data?.loaded;
 
 						return (
-							<div key={sketch.id} className={`page ${orientation}`}>
-								{!isLoaded && <Skeleton className="sketchSkeleton active" />}
+							<div key={sketch.id} className={`sketchPage ${orientation}`}>
+								{!isLoaded && <Skeleton />}
 								<img
 									className={`sketchImage ${
 										isLoaded ? "visible" : "hidden"
@@ -194,16 +193,16 @@ const SketchScreen: React.FC = () => {
 			</div>
 
 			{!loading && totalPages > 1 && (
-				<div className="pageIndicatorsWrapper">
+				<div className="sketchIndicatorsContainer">
 					<div
-						className="pageIndicatorsInner"
+						className="sketchIndicatorsInner"
 						ref={dotsRef}
 						style={{ transform: `translateX(${transformX}px)` }}
 					>
 						{Array.from({ length: totalPages }).map((_, i) => (
 							<button
 								key={i}
-								className={`dot ${i === pageIndex ? "active" : ""}`}
+								className={`sketchDot ${i === pageIndex ? "active" : ""}`}
 								onClick={() => setPageIndex(i)}
 							/>
 						))}

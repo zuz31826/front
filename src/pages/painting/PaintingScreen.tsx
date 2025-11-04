@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import { usePaintings } from "../../context/PaintingContext";
 import Skeleton from "../../components/skeleton/Skeleton";
 import border from "../../assets/images/pageBorder.png";
+import type { Orientation } from "../../types";
 import "./paintingScreen.css";
-
-type Orientation = "horizontal" | "vertical";
 
 const PaintingScreen: React.FC = () => {
 	const { paintings, loading } = usePaintings();

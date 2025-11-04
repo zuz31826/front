@@ -1,7 +1,7 @@
 import { useAboutMe } from "../../context/AboutMeContext";
 import AboutMeText from "./components/aboutMeText/AboutMeText";
 import AboutMeTopPh from "./components/aboutMeTopPh/AboutMeTopPh";
-import HorizontalCarousel from "./components/horizontalCarousel/HorizontalCarousel";
+import AboutCarousel from "./components/aboutCarousel/AboutCarousel";
 import Skeleton from "../../components/skeleton/Skeleton";
 import "./aboutMePage.css";
 
@@ -43,7 +43,7 @@ const AboutMePage = () => {
 	const renderCarousel = (data?: any[], key?: string) => {
 		if (!data?.length) return null;
 		return (
-			<HorizontalCarousel
+			<AboutCarousel
 				key={key}
 				images={data.map((item) => ({
 					id: item.id,
