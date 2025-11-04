@@ -9,7 +9,7 @@
 	box-sizing: border-box;
 }
 
-.skeletonContainer {
+.portfolioSkeletonContainer {
 	width: 100%;
 	align-items: center;
 	display: flex;

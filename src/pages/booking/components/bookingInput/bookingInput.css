@@ -1,0 +1,37 @@
+.bookingInputContainer {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 8px;
+	justify-content: space-between;
+}
+
+.bookingInputLabel {
+	color: var(--color-black);
+	font-size: clamp(16px, 3vw, 18px);
+	display: block;
+	max-width: clamp(120px, 30%, 160px);
+	width: 100%;
+}
+
+.bookingInputField {
+	border: 1px solid var(--color-half-transparent-black);
+	color: var(--color-black);
+	font-size: clamp(16px, 2.5vw, 18px);
+	border-radius: 4px;
+	padding: 8px;
+	max-width: 390px;
+	width: 100%;
+	box-sizing: border-box;
+	resize: none;
+}
+
+.bookingInputTextarea {
+	min-height: 100px;
+	resize: vertical;
+	line-height: 1.5;
+}
+
+.bookingInputError {
+	border: 1px solid var(--color-red) !important;
+}

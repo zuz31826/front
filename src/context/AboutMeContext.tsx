@@ -5,10 +5,8 @@ import {
 	useState,
 	type ReactNode,
 } from "react";
-import axios from "axios";
+import { fetchAboutMeApi } from "../api";
 import type { AboutMe } from "../types";
-
-const apiUrl = import.meta.env.VITE_APP_STRAPI_URL;
 
 interface AboutMeContextType {
 	aboutMe: AboutMe[];
@@ -29,21 +27,10 @@ export function AboutMeProvider({ children }: { children: ReactNode }) {
 		setError(null);
 
 		try {
-			const cached = sessionStorage.getItem("aboutMe");
-			if (cached) {
-				setAboutMe(JSON.parse(cached));
-				setLoading(false);
-				return;
-			}
-
-			const res = await axios.get(`${apiUrl}/api/abouts?populate=*`);
-			const data = res.data.data;
-
+			const data = await fetchAboutMeApi();
 			setAboutMe(data);
-			sessionStorage.setItem("aboutMe", JSON.stringify(data));
-		} catch (err) {
-			console.error("❌ Error fetching AboutMe data:", err);
-			setError("Failed to load content. Please try again later.");
+		} catch (err: any) {
+			setError(err.message);
 			setAboutMe([]);
 		} finally {
 			setLoading(false);

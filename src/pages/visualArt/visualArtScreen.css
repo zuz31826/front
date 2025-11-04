@@ -1,9 +1,9 @@
-.visualArtScreenContainer {
+.visualArtContainer {
 	margin-top: clamp(70px, 11vw, 100px);
 	padding-bottom: clamp(70px, 11vw, 100px);
 }
 
-.visualArtScreenLink {
+.visualArtLink {
 	max-width: 1100px;
 	margin: clamp(10px, 4vw, 20px) auto 0 auto;
 	padding: 0 20px;
@@ -11,6 +11,6 @@
 	text-align: center;
 }
 
-.visualArtScreenLink:hover {
+.visualArtLink:hover {
 	color: var(--color-gray);
 }

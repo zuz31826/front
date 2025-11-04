@@ -1,0 +1,39 @@
+.visualArtVideoBgContainer {
+	position: relative;
+	width: 100%;
+	height: 100vh;
+	overflow: hidden;
+	background-color: var(--color-background);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.visualArtVideoBgButtonsContainer {
+	position: absolute;
+	top: 55%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	z-index: 2;
+}
+
+.visualArtVideoBgVideo {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	background-color: var(--color-background);
+	z-index: 1;
+	opacity: 0;
+	transition: opacity 1s ease;
+}
+
+.visualArtVideoBgVideo.loaded {
+	opacity: 1;
+}

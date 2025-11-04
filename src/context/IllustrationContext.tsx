@@ -5,10 +5,8 @@ import {
 	useState,
 	type ReactNode,
 } from "react";
-import axios from "axios";
+import { fetchIllustrationsApi } from "../api";
 import type { Illustration } from "../types";
-
-const apiUrl = import.meta.env.VITE_APP_STRAPI_URL;
 
 interface IllustrationContextType {
 	illustrations: Illustration[];
@@ -24,22 +22,17 @@ export function IllustrationProvider({ children }: { children: ReactNode }) {
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		const cached = sessionStorage.getItem("illustrations");
-		if (cached) {
-			setIllustrations(JSON.parse(cached));
-			setLoading(false);
-			return;
-		}
-
-		axios
-			.get(`${apiUrl}/api/illustrations?populate=*`)
-			.then((res) => {
-				const data = res.data.data;
+		const load = async () => {
+			try {
+				const data = await fetchIllustrationsApi();
 				setIllustrations(data);
-				sessionStorage.setItem("illustrations", JSON.stringify(data));
+			} catch (err) {
+				console.error(err);
+			} finally {
 				setLoading(false);
-			})
-			.catch(() => setLoading(false));
+			}
+		};
+		load();
 	}, []);
 
 	return (

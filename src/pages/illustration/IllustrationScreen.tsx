@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import { useIllustrations } from "../../context/IllustrationContext";
 import Skeleton from "../../components/skeleton/Skeleton";
 import border from "../../assets/images/pageBorder.png";
+import type { Orientation } from "../../types";
 import "./illustrationScreen.css";
-
-type Orientation = "horizontal" | "vertical";
 
 const IllustrationScreen: React.FC = () => {
 	const { illustrations, loading } = useIllustrations();

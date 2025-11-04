@@ -12,7 +12,7 @@ const PortfolioScreen: React.FC = () => {
 		<div className="portfolioContainer">
 			{loading
 				? Array.from({ length: 9 }).map((_, index) => (
-						<div key={index} className="skeletonContainer">
+						<div key={index} className="portfolioSkeletonContainer">
 							<Skeleton width="60%" height="100%" />
 						</div>
 				  ))

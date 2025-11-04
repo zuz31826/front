@@ -44,7 +44,6 @@
 	font-size: clamp(16px, 2vw, 20px);
 	margin-top: 18px;
 	padding: 12px 24px;
-
 	align-self: center;
 	transition: color 0.3s ease;
 	cursor: pointer;
