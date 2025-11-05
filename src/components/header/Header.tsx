@@ -114,7 +114,7 @@ const Header: React.FC = () => {
 
 					<li>Collaboration</li>
 					<li onClick={() => navigationHandler("/about")}>About me</li>
-					<li>Contact</li>
+					<li onClick={() => navigationHandler("/contact")}>Contact</li>
 				</ul>
 			</aside>
 		</>
