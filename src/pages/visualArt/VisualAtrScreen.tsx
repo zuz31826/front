@@ -1,7 +1,8 @@
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import VisualArtHeaderText from "./components/visualArtHeaderText/VisualArtHeaderText";
 import VisualArtVideoBg from "./components/visualArtVideoBg/VisualArtVideoBg";
-import TextInfo from "../../components/textInfo/TextInfo";
+import InstaLinkLight from "../../components/instaLinkLight/InstaLinkLight";
+// import TextInfo from "../../components/textInfo/TextInfo";
 import "./visualArtScreen.css";
 
 const VisualArtScreen = () => {
@@ -9,13 +10,14 @@ const VisualArtScreen = () => {
 		<div className="visualArtContainer">
 			<VisualArtHeaderText />
 			<VisualArtVideoBg />
-			<Link
+			{/* <Link
 				to="https://www.instagram.com/wruszkatutuasz"
 				target="_blank"
 				rel="noopener noreferrer"
 			>
 				<TextInfo text="@wruszkatutuasz" className="visualArtLink" />
-			</Link>
+			</Link> */}
+			<InstaLinkLight containerClassName="visualArtLinkContainer visualArtLink" />
 		</div>
 	);
 };

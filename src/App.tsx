@@ -19,6 +19,7 @@ import PaintingScreen from "./pages/painting/PaintingScreen";
 import IllustrationScreen from "./pages/illustration/IllustrationScreen";
 import SketchScreen from "./pages/sketch/SketchScreen";
 import AboutMePage from "./pages/about/AboutMePage";
+import ContactScreen from "./pages/contact/ContactScreen";
 import AdminPage from "./pages/admin/AdminPage";
 
 import ScrollToTop from "./components/ScrollToTop";
@@ -50,6 +51,7 @@ const AppRoutes: React.FC = () => {
 					<Route path="/illustration" element={<IllustrationScreen />} />
 					<Route path="/sketch" element={<SketchScreen />} />
 					<Route path="/about" element={<AboutMePage />} />
+					<Route path="/contact" element={<ContactScreen />} />
 
 					<Route path="/admin" element={<AdminPage />} />
 					{/* <Route path="*" element={<Navigate to="/404" replace />} />
