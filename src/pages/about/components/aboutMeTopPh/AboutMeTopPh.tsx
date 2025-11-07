@@ -11,7 +11,7 @@ const AboutMeTopPh: React.FC = () => {
 	});
 
 	const handleLoad = (key: "polaroid" | "about") =>
-		setImagesLoaded((prev) => ({ ...prev, [key]: true }));
+		setImagesLoaded((prev) => ({ ...prev, [key]: false }));
 
 	return (
 		<div className="aboutMeTopPhContainer">

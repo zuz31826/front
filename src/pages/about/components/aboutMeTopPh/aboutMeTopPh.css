@@ -1,6 +1,7 @@
 .aboutMeTopPhContainer {
 	max-width: 1300px;
 	width: 100%;
+	height: auto;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
@@ -14,10 +15,13 @@
 	justify-content: center;
 	width: clamp(150px, 40vw, 400px);
 	overflow: hidden;
+	height: auto;
 }
 
 .aboutMeTopPhSkeletonWrapper {
 	position: absolute;
+	background-color: aqua;
+	height: 100%;
 	inset: 0;
 	display: flex;
 	align-items: center;
