@@ -18,7 +18,7 @@ const AboutMeTopPh: React.FC = () => {
 			<div className="aboutMeTopPhWrapper">
 				{!imagesLoaded.polaroid && (
 					<div className="aboutMeTopPhSkeletonWrapper">
-						<Skeleton className="aboutMeTopPhSkeleton" />
+						<Skeleton className="aboutMeTopPhSkeleton" height={300} />
 					</div>
 				)}
 				<img
