@@ -7,6 +7,44 @@
 	margin-bottom: 40px;
 }
 
+.aboutMeTopPhWrapper {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: clamp(150px, 40vw, 400px);
+	overflow: hidden;
+}
+
+.aboutMeTopPhSkeletonWrapper {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 2;
+	transition: opacity 0.3s ease;
+}
+
+.aboutMeTopPhSkeleton {
+	width: 100%;
+	height: 100%;
+}
+
+.aboutMeTopPhSkeletonAbout {
+	margin-top: auto;
+}
+
+.aboutMeTopPhPolaroid,
+.aboutMeTopPhAbout {
+	width: 100%;
+	height: auto;
+	display: block;
+	opacity: 0;
+	transition: opacity 0.4s ease;
+	z-index: 1;
+}
+
 .aboutMeTopPhPolaroid {
 	width: clamp(200px, 40vw, 400px);
 	height: auto;
@@ -17,4 +55,14 @@
 	height: auto;
 	margin-top: auto;
 	margin-bottom: 20px;
+}
+
+.visible {
+	opacity: 1;
+}
+
+.aboutMeTopPhWrapper img.visible + .aboutMeTopPhSkeletonWrapper,
+.aboutMeTopPhWrapper .aboutMeTopPhSkeletonWrapper:has(+ img.visible) {
+	opacity: 0;
+	pointer-events: none;
 }
