@@ -175,7 +175,11 @@ const SketchScreen: React.FC = () => {
 							>
 								{!isLoaded && (
 									<div className="sketchSkeletonWrapper">
-										<Skeleton className="sketchSkeleton placeholder" />
+										<Skeleton
+											className="sketchSkeleton placeholder"
+											width={"70%"}
+											height={"100%"}
+										/>
 									</div>
 								)}
 
