@@ -167,8 +167,18 @@ const SketchScreen: React.FC = () => {
 						const isLoaded = data?.loaded;
 
 						return (
-							<div key={sketch.id} className={`sketchPage ${orientation}`}>
-								{!isLoaded && <Skeleton />}
+							<div
+								key={sketch.id}
+								className={`sketchPage ${orientation} ${
+									isLoaded ? "loaded" : ""
+								}`}
+							>
+								{!isLoaded && (
+									<div className="sketchSkeletonWrapper">
+										<Skeleton className="sketchSkeleton placeholder" />
+									</div>
+								)}
+
 								<img
 									className={`sketchImage ${
 										isLoaded ? "visible" : "hidden"

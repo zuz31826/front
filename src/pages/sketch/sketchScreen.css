@@ -36,11 +36,18 @@
 }
 
 .sketchPage {
+	position: relative;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	max-height: 90vh;
 	border-radius: 0;
+	overflow: hidden;
+	transition: max-width 0.4s ease;
+}
+
+.sketchPage:not(.horizontal):not(.vertical) {
+	max-width: clamp(200px, 50vw, 600px);
 }
 
 .sketchInner.desktop .sketchPage {
@@ -54,21 +61,46 @@
 	height: auto;
 }
 
-.sketchPage img {
+.sketchSkeletonWrapper {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 3;
+	transition: opacity 0.3s ease;
+}
+
+.sketchSkeleton.placeholder {
+	width: 100%;
+	height: 100%;
+	max-height: 80vh;
+	border-radius: 4px;
+	aspect-ratio: 4 / 3;
+}
+
+.sketchPage.loaded .sketchSkeletonWrapper {
+	opacity: 0;
+	pointer-events: none;
+}
+
+.sketchImage {
+	position: relative;
 	display: block;
 	opacity: 0;
-	transition: opacity 0.2s ease;
+	transition: opacity 0.3s ease;
 	border: 1px solid var(--color-light-gray);
 	box-shadow: 0 8px 20px var(--color-shadow-black);
 	object-fit: contain;
+	z-index: 1;
 }
 
-.sketchPage.horizontal img {
+.sketchPage.horizontal .sketchImage {
 	width: 100%;
 	height: auto;
 }
 
-.sketchPage.vertical img {
+.sketchPage.vertical .sketchImage {
 	width: auto;
 	height: 100%;
 	max-height: 80vh;

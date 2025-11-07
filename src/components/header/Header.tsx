@@ -1,11 +1,12 @@
 import { useEffect, useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import burger from "../../assets/images/burgerButt.png";
 import name from "../../assets/images/name.png";
 import "./header.css";
 
 const Header: React.FC = () => {
 	const navigation = useNavigate();
+	const location = useLocation();
 	const [show, setShow] = useState(true);
 	const [menuOpen, setMenuOpen] = useState(false);
 	const lastScrollY = useRef(0);
@@ -44,6 +45,19 @@ const Header: React.FC = () => {
 	const navigationHandler = (path: string) => {
 		navigation(path);
 		setMenuOpen(false);
+	};
+
+	const handleCollaborationClick = () => {
+		setMenuOpen(false);
+
+		if (location.pathname === "/") {
+			const section = document.getElementById("collaboration");
+			if (section) {
+				section.scrollIntoView({ behavior: "smooth" });
+			}
+		} else {
+			navigation("/", { state: { scrollTo: "collaboration" } });
+		}
 	};
 
 	return (
@@ -112,7 +126,8 @@ const Header: React.FC = () => {
 						Sketchbook
 					</li>
 
-					<li>Collaboration</li>
+					<li onClick={handleCollaborationClick}>Collaboration</li>
+
 					<li onClick={() => navigationHandler("/about")}>About me</li>
 					<li onClick={() => navigationHandler("/contact")}>Contact</li>
 				</ul>

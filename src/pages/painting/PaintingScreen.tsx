@@ -7,7 +7,6 @@ import "./paintingScreen.css";
 
 const PaintingScreen: React.FC = () => {
 	const { paintings, loading } = usePaintings();
-
 	const [imageData, setImageData] = useState<
 		Record<number, { loaded: boolean; orientation: Orientation }>
 	>({});

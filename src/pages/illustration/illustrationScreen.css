@@ -25,11 +25,18 @@
 	justify-content: center;
 	align-items: center;
 	width: 100%;
+	overflow: hidden;
+	transition: max-width 0.4s ease;
+}
+
+.illustrationWrapper:not(.horizontal):not(.vertical) {
+	max-width: clamp(200px, 50vw, 600px);
 }
 
 .illustrationWrapper.horizontal {
 	max-width: clamp(250px, 60vw, 900px);
 }
+
 .illustrationWrapper.vertical {
 	max-width: clamp(200px, 50vw, 600px);
 }

@@ -30,6 +30,37 @@
 	cursor: pointer;
 }
 
+.portfolioItem {
+	position: relative;
+	width: 100%;
+	overflow: hidden;
+}
+
+.portfolioSkeletonContainer {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	/* background: #111; */
+}
+
+.portfolioImage {
+	width: 100%;
+	height: auto;
+	opacity: 0;
+	transition: opacity 0.4s ease;
+	display: block;
+}
+
+.portfolioImage.visible {
+	opacity: 1;
+}
+
+.portfolioImage.hidden {
+	opacity: 0;
+}
+
 @media (max-width: 768px) {
 	.portfolioContainer {
 		grid-template-columns: 1fr;
